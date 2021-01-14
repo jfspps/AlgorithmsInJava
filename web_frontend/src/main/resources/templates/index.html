@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/webjars/bootstrap/4.5.3/css/bootstrap.min.css">
+<head th:replace="fragments/header :: baseHead(~{::title})">
     <title>Algorithms in Java</title>
 </head>
+
 <body>
-<h1>Algorithms in Java</h1>
 
-<p>
-    This project presents the code with runnable examples of commonly applied algorithms.
-</p>
+<div class="container">
+    <h1>Algorithms in Java</h1>
 
-<footer>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
-    <script src="/webjars/popper.js/2.5.4/umd/popper.min.js"></script>
-    <script src="/webjars/bootstrap/4.5.3/js/bootstrap.min.js"></script>
+    <p>
+        This project presents the code with runnable examples of commonly applied algorithms.
+    </p>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
 </footer>
 
 </body>
