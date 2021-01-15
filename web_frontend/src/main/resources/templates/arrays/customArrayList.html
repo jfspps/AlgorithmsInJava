@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Custom ArrayList</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Building a replica of Java's ArrayList</h1>
+
+    <p>The array is based on an abstract class, CustomArrayList. The properties and constructor are given below.</p>
+
+    <pre>
+        <code class="lang-java">
+            private T[] arrayList;
+            private int capacity;
+            private int length;
+
+            public CustomArrayList(int capacity) {
+                if (capacity == 0){
+                    this.capacity = 1;
+                } else
+                    this.capacity = capacity;
+
+                this.arrayList = (T[]) new Object[this.capacity];
+                this.length = 0;
+            }
+        </code>
+    </pre>
+
+    <p>
+        The following method <i>add()</i> adds a new element to array at the lowest-index null element (not necessarily
+        the end of the array). The array is dynamic and is <i>clone()</i> called if the length is at least half of its capacity.
+    </p>
+
+    <pre>
+        <code>
+        /**
+         * Adds a new element to array at the lowest-index null element (not necessarily the end of the array).
+         * The array capacity increases automatically when the array is already half-full.
+         */
+        public void add(T newElement){
+            if (length > 0 && capacity/length < 2){
+                CustomArrayList&lt;T&gt; newArray = new CustomArrayList&lt;&gt;(2 * this.capacity);
+                int thisLength = clone(newArray);
+
+                newArray.arrayList[thisLength] = newElement;
+
+                // re-reference this.arrayList and properties
+                this.arrayList = newArray.arrayList;
+                this.capacity = newArray.capacity;
+                this.length++;
+            } else {
+                // get to the next null element
+                int j = 0;
+                while (this.arrayList[j] != null){
+                    j++;
+                }
+                this.arrayList[j] = newElement;
+
+                // only increment this.length if newElement was added at the end
+                if (j == length){
+                    this.length++;
+                }
+            }
+        }
+        </code>
+    </pre>
+
+    <p>
+        The method <i>clone()</i> copies across all of this.arrayList's elements to a new array.
+    </p>
+
+    <pre>
+        <code>
+        private int clone(CustomArrayList&lt;T&gt; newArray) {
+            int i;
+            for (i = 0; i &lt; this.length; i++) {
+                newArray.arrayList[i] = this.arrayList[i];
+            }
+            return i;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Other fundamental methods are given below. The method <i>clear()</i> assumes that the capacity of and reference to
+        the array is not changed.
+    </p>
+
+    <pre>
+        <code>
+        public int size(){
+            return this.length;
+        }
+
+        public boolean isEmpty(){
+            return this.length == 0;
+        }
+
+        public T get(int index){
+            if (index &lt; length){
+                return this.arrayList[index];
+            } else
+                return null;
+        }
+
+        public void clear(){
+            // use the same memory allocation
+            for (int i = 0; i &lt; this.length; i++){
+                this.arrayList[i] = null;
+            }
+            this.length = 0;
+        }
+
+        public int indexOf(T element){
+            for (int i = 0; i &lt; this.length; i++){
+                if (this.arrayList[i] == element){
+                    return i;
+                }
+            }
+            return -1;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The removal of elements is performed either by specifying the element to be removed or by specifying the index of
+        the element to be removed.
+    </p>
+
+    <pre>
+        <code>
+        public T removeElement(T element){
+            int index = this.indexOf(element);
+            T temp = null;
+
+            if (index &gt;= 0){
+                temp = this.arrayList[index];
+                this.arrayList[index] = null;
+                if (index == length - 1){
+                    this.length--;
+                }
+            }
+            return temp;
+        }
+
+        public T removeAtIndex(int index){
+            T temp = null;
+            if (index &gt;= 0){
+                temp = this.get(index);
+                this.arrayList[index] = null;
+            }
+            return temp;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Finally, the setting of an element given by the index is performed dynamically, that is, if the index is out of
+        bounds then the array is adjusted (as it is with <i>add()</i>) to accommodate the change. This could of course be
+        implemented such that an exception is thrown if the index is out of bounds, in which case no changes are made.
+    </p>
+
+    <pre>
+        <code>
+        public void set(T newElement, int index){
+            if (index &lt; 0){
+                return;
+            }
+
+            if (index < length){
+                this.arrayList[index] = newElement;
+            } else {
+                // build a new array just large enough
+                CustomArrayList&lt;T&gt; newArray = new CustomArrayList&lt;&gt;(index+1);
+                this.clone(newArray);
+
+                newArray.arrayList[index] = newElement;
+                this.arrayList = newArray.arrayList;
+                this.length = index + 1;
+                this.capacity = newArray.capacity;
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

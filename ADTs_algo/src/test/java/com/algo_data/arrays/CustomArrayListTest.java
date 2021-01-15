@@ -40,6 +40,7 @@ class CustomArrayListTest {
     @Test
     void size() {
         assertNotEquals(100, builtArray.size());
+        assertEquals(5, builtArray.size());
     }
 
     @Test

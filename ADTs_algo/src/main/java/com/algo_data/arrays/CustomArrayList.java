@@ -7,31 +7,30 @@ public class CustomArrayList<T> {
     private int length;
 
     public CustomArrayList(int capacity) {
-        this.capacity = capacity;
+        if (capacity == 0){
+            this.capacity = 1;
+        } else
+            this.capacity = capacity;
+
         this.arrayList = (T[]) new Object[this.capacity];
         this.length = 0;
     }
 
     /**
-     * Adds a new element to array at the lowest-index null element.
-     *
+     * Adds a new element to array at the lowest-index null element (not necessarily the end of the array).
      * The array capacity increases automatically when the array is already half-full.
      */
     public void add(T newElement){
         if (length > 0 && capacity/length < 2){
             CustomArrayList<T> newArray = new CustomArrayList<>(2 * this.capacity);
-            int i;
-            for (i = 0; i < this.length; i++) {
-                newArray.arrayList[i] = this.arrayList[i];
-                newArray.length++;
-            }
-            newArray.arrayList[i] = newElement;
-            newArray.length = i + 1;
+            int thisLength = clone(newArray);
 
-            // re-reference arrays
+            newArray.arrayList[thisLength] = newElement;
+
+            // re-reference this.arrayList and properties
             this.arrayList = newArray.arrayList;
             this.capacity = newArray.capacity;
-            this.length = newArray.length;
+            this.length++;
         } else {
             // get to the next null element
             int j = 0;
@@ -40,10 +39,23 @@ public class CustomArrayList<T> {
             }
             this.arrayList[j] = newElement;
 
+            // only increment this.length if newElement was added at the end
             if (j == length){
                 this.length++;
             }
         }
+    }
+
+    /**
+     * Helper function that copies this.arrayList to a new array.
+     * Returns this.length.
+     */
+    private int clone(CustomArrayList<T> newArray) {
+        int i;
+        for (i = 0; i < this.length; i++) {
+            newArray.arrayList[i] = this.arrayList[i];
+        }
+        return i;
     }
 
     /**
@@ -84,7 +96,7 @@ public class CustomArrayList<T> {
     }
 
     /**
-     * Returns the index of the element if found and returns -1 if not found.
+     * Returns the lowest index of the element if found and returns -1 if not found.
      * */
     public int indexOf(T element){
         for (int i = 0; i < this.length; i++){
@@ -139,9 +151,8 @@ public class CustomArrayList<T> {
         } else {
             // build a new array just large enough
             CustomArrayList<T> newArray = new CustomArrayList<>(index+1);
-            for (int i = 0; i < this.length; i++) {
-                newArray.arrayList[i] = this.arrayList[i];
-            }
+            this.clone(newArray);
+
             newArray.arrayList[index] = newElement;
             this.arrayList = newArray.arrayList;
             this.length = index + 1;
