@@ -2,8 +2,8 @@ package com.algo_data.arrays;
 
 public class CustomArrayList<T> {
 
-    private final T[] arrayList;
-    private final int capacity;
+    private T[] arrayList;
+    private int capacity;
     private int length;
 
     public CustomArrayList(int capacity) {
@@ -16,20 +16,22 @@ public class CustomArrayList<T> {
      * Adds a new element to array at the lowest-index null element.
      *
      * The array capacity increases automatically when the array is already half-full.
-     *
-     * Returns a reference to the array added to.
      */
-    public CustomArrayList<T> add(T newElement){
-        if (capacity/length < 2){
-            CustomArrayList<T> newArray = new CustomArrayList<>(2*capacity);
+    public void add(T newElement){
+        if (length > 0 && capacity/length < 2){
+            CustomArrayList<T> newArray = new CustomArrayList<>(2 * this.capacity);
             int i;
             for (i = 0; i < this.length; i++) {
                 newArray.arrayList[i] = this.arrayList[i];
                 newArray.length++;
             }
-            newArray.arrayList[i+1] = newElement;
-            newArray.length++;
-            return newArray;
+            newArray.arrayList[i] = newElement;
+            newArray.length = i + 1;
+
+            // re-reference arrays
+            this.arrayList = newArray.arrayList;
+            this.capacity = newArray.capacity;
+            this.length = newArray.length;
         } else {
             // get to the next null element
             int j = 0;
@@ -41,7 +43,6 @@ public class CustomArrayList<T> {
             if (j == length){
                 this.length++;
             }
-            return this;
         }
     }
 
@@ -97,7 +98,7 @@ public class CustomArrayList<T> {
     /**
      * Sets the first element found as null, returning the element (which can be null) if valid and null if not.
      * */
-    public T remove(T element){
+    public T removeElement(T element){
         int index = this.indexOf(element);
         T temp = null;
 
@@ -127,26 +128,24 @@ public class CustomArrayList<T> {
      * Assigns the element at the supplied index with the newElement value provided.
      *
      * This method is also equivalent to addAtIndex(), and expands the array as necessary to accommodate the newElement.
-     *
-     * Returns the array reference if valid (array may have been expanded) and null otherwise.
      * */
-    public CustomArrayList<T> set(T newElement, int index){
+    public void set(T newElement, int index){
         if (index < 0){
-            return null;
+            return;
         }
 
         if (index < length){
             this.arrayList[index] = newElement;
-            return this;
         } else {
             // build a new array just large enough
-            CustomArrayList<T> newArray = new CustomArrayList<>(index);
+            CustomArrayList<T> newArray = new CustomArrayList<>(index+1);
             for (int i = 0; i < this.length; i++) {
                 newArray.arrayList[i] = this.arrayList[i];
             }
             newArray.arrayList[index] = newElement;
-            newArray.length = index + 1;
-            return newArray;
+            this.arrayList = newArray.arrayList;
+            this.length = index + 1;
+            this.capacity = newArray.capacity;
         }
     }
 }
