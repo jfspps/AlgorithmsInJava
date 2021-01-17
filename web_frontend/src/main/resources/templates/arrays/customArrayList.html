@@ -31,17 +31,13 @@
 
     <p>
         The following method <i>add()</i> adds a new element to array at the lowest-index null element (not necessarily
-        the end of the array). The array is dynamic and is <i>clone()</i> called if the length is at least half of its capacity.
+        the end of the array). The array is dynamic and is <i>clone()</i> called if there is only one free element remaining.
     </p>
 
     <pre>
         <code>
-        /**
-         * Adds a new element to array at the lowest-index null element (not necessarily the end of the array).
-         * The array capacity increases automatically when the array is already half-full.
-         */
         public void add(T newElement){
-            if (length > 0 && capacity/length < 2){
+            if (length > 0 && capacity - length < 2){
                 CustomArrayList&lt;T&gt; newArray = new CustomArrayList&lt;&gt;(2 * this.capacity);
                 int thisLength = clone(newArray);
 

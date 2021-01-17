@@ -18,10 +18,10 @@ public class CustomArrayList<T> {
 
     /**
      * Adds a new element to array at the lowest-index null element (not necessarily the end of the array).
-     * The array capacity increases automatically when the array is already half-full.
+     * The array capacity increases automatically when the number of free elements remaining is one.
      */
     public void add(T newElement){
-        if (length > 0 && capacity/length < 2){
+        if (length > 0 && capacity - length < 2){
             CustomArrayList<T> newArray = new CustomArrayList<>(2 * this.capacity);
             int thisLength = clone(newArray);
 
