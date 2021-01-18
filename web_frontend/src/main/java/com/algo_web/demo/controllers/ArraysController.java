@@ -1,9 +1,6 @@
 package com.algo_web.demo.controllers;
 
-import com.algo_data.arrays.AllUniqueChars;
-import com.algo_data.arrays.Palindrome;
-import com.algo_data.arrays.StringIsAPermutation;
-import com.algo_data.arrays.URLify;
+import com.algo_data.arrays.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,11 +88,26 @@ public class ArraysController {
     public String getPalindromeDemo(){ return "/arrays/palindromeDemo"; }
 
     @PostMapping("/palindrome/demo")
-    public String postPalindrome(String stringEntered, Model model){
+    public String postPalindromeDemo(String stringEntered, Model model){
         log.info(stringEntered);
         Palindrome palindrome = new Palindrome(stringEntered);
         String message = "\"" + stringEntered + "\" is a palindrome: " + palindrome.stringIsAPermutationOfAPalindrome();
         model.addAttribute("palindrome", message);
         return "/arrays/palindromeDemo";
+    }
+
+    @GetMapping("/oneOp")
+    public String getOneAway(){ return "/arrays/oneOp"; }
+
+    @GetMapping("/oneOp/demo")
+    public String getOneAwayDemo(){ return "/arrays/oneOpDemo"; }
+
+    @PostMapping("/oneOp/demo")
+    public String postOneAwayDemo(String stringEntered, String comparison, Model model){
+        log.info(stringEntered);
+        OneAway oneAway = new OneAway(stringEntered);
+        String message = "\"" + stringEntered + "\" is one operation away from \"" + comparison + "\": " + oneAway.isOneAway(comparison);
+        model.addAttribute("oneAway", message);
+        return "/arrays/oneOpDemo";
     }
 }
