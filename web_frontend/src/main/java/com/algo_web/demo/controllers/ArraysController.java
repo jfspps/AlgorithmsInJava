@@ -2,6 +2,7 @@ package com.algo_web.demo.controllers;
 
 import com.algo_data.arrays.AllUniqueChars;
 import com.algo_data.arrays.StringIsAPermutation;
+import com.algo_data.arrays.URLify;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,5 +66,20 @@ public class ArraysController {
         String message = asciiString1 + " and " + asciiString2 + " are permutations: " + stringIsAPermutation.isAPermutation(asciiString2);
         model.addAttribute("permutation", message);
         return "/arrays/stringIsAPermutationDemo";
+    }
+
+    @GetMapping("/URLstring")
+    public String getURLString(){ return "/arrays/URLstring"; }
+
+    @GetMapping("/URLstring/demo")
+    public String getURLStringDemo(){ return "/arrays/URLstringDemo"; }
+
+    @PostMapping("/URLstring/demo")
+    public String postURLStringDemo(String stringEntered, Model model){
+        log.info(stringEntered);
+        URLify urLify = new URLify(stringEntered);
+        String message = "\"" + stringEntered + "\" converted to " + "\"" + urLify.URLifyString() + "\"";
+        model.addAttribute("newURL", message);
+        return "/arrays/URLstringDemo";
     }
 }

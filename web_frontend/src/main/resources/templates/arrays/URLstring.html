@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>String to URL</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Replace whitespace in a string with %20</h1>
+
+    <p>
+        The replacement of whitespace with the three characters %20 is often applied when browsers process URL strings.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private final char[] input;
+
+        public URLify(String input) {
+            this.input = new char[input.length() * 3];  // prepare to replace one whitespace character with three, %20
+            for (int i = 0; i < input.length(); i++){
+                this.input[i] = input.charAt(i);
+            }
+        }
+        </code>
+    </pre>
+
+    <p>
+        With URLifyString(), the string is traversed until whitespace is found. Another pointer j is then sent to the
+        last non-null character of the array and shuffles each character up three elements, until it reaches the same element
+        occupied by pointer i. Using pointer i, the method then effectively adds the substring "%20" and advances three
+        places.
+    </p>
+
+    <pre>
+        <code>
+        // without copying to a temporary array, time complexity is O(n^2)
+        public String URLifyString(){
+            for (int i = 0; i < this.input.length; i++){
+                if (this.input[i] == ' '){
+                    // shuffle elements along three places to the right
+                    int j = i;
+
+                    // send j to the end and bring back while shifting each character
+                    while (this.input[j] != '\0')
+                        j++;
+
+                    while (j > i){
+                        this.input[j+2] = this.input[j];
+                        j--;
+                    }
+                    this.input[i++] = '%';
+                    this.input[i++] = '2';
+                    this.input[i] = '0';
+                }
+            }
+            return new String(this.input).replace("\0", "");
+        }
+        </code>
+    </pre>
+
+    <p>
+        Assuming a worst-case scenario, where all characters are whitespace then it would require (n + n-1 + ...+ 2 + 1)
+        shifts of three characters, or, (n + n-1 + n-2 + ... n-(n-2) + n-(n-1)) which is n(n+1)/2. Time complexity is
+        then taken at worst as O(n^2).
+    </p>
+
+    <p>Try out URLifyString() <a th:href="@{/arrays/URLstring/demo}">here</a>.</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
