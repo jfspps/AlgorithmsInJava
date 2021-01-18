@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Palindromes</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Deducing if a string is a palindrome</h1>
+
+    <p>Try out the methods below. Note that stringIsAPermutationOfAPalindrome() returns false if non-ASCII characters
+        were entered. This example focuses on alphabetical characters. </p>
+
+    <form th:action="@{/arrays/palindrome/demo}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-label-group">
+                    <label for="asciiString">Enter a string </label>
+                </div>
+            </div>
+            <div class="col-9">
+                <input type="text" id="asciiString" name="stringEntered" class="form-control" autofocus
+                       autocomplete="off" placeholder="Enter an ASCII string"/>
+                <button class="btn btn-success" type="submit">Assess</button>
+                <!--/*@thymesVar id="palindrome" type="java.lang.String"*/-->
+                <span class="help-block" th:if="${palindrome != null}">
+                    <p class="alert alert-info" th:text="${palindrome}"></p>
+                </span>
+            </div>
+        </div>
+    </form>
+
+    <a class="btn btn-success" th:href="@{/arrays/palindrome/demo}">Refresh page</a>
+    <a class="btn btn-success" th:href="@{/arrays/palindrome}">Go back</a>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

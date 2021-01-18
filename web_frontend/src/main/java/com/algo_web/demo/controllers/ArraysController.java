@@ -1,6 +1,7 @@
 package com.algo_web.demo.controllers;
 
 import com.algo_data.arrays.AllUniqueChars;
+import com.algo_data.arrays.Palindrome;
 import com.algo_data.arrays.StringIsAPermutation;
 import com.algo_data.arrays.URLify;
 import lombok.extern.slf4j.Slf4j;
@@ -81,5 +82,20 @@ public class ArraysController {
         String message = "\"" + stringEntered + "\" converted to " + "\"" + urLify.URLifyString() + "\"";
         model.addAttribute("newURL", message);
         return "/arrays/URLstringDemo";
+    }
+
+    @GetMapping("/palindrome")
+    public String getPalindrome(){ return "/arrays/palindrome"; }
+
+    @GetMapping("/palindrome/demo")
+    public String getPalindromeDemo(){ return "/arrays/palindromeDemo"; }
+
+    @PostMapping("/palindrome/demo")
+    public String postPalindrome(String stringEntered, Model model){
+        log.info(stringEntered);
+        Palindrome palindrome = new Palindrome(stringEntered);
+        String message = "\"" + stringEntered + "\" is a palindrome: " + palindrome.stringIsAPermutationOfAPalindrome();
+        model.addAttribute("palindrome", message);
+        return "/arrays/palindromeDemo";
     }
 }
