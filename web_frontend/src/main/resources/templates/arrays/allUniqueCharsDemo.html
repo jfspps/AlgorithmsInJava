@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Unique strings</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Deducing if an array of ASCII characters is unique or not</h1>
+
+    <p>Try out the methods below. Note that areAllUniqueChars_withADT() returns false if non-ASCII characters were entered.</p>
+
+    <form th:action="@{/arrays/allUniqueChars/with}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-label-group">
+                    <label for="asciiStringWith">areAllUniqueChars_withADT() </label>
+                </div>
+            </div>
+            <div class="col-9">
+                <input type="text" id="asciiStringWith" name="asciiStringWith" class="form-control" autofocus
+                       autocomplete="off" placeholder="Enter an ASCII string"/>
+                <button class="btn btn-success" type="submit">Assess</button>
+                <!--/*@thymesVar id="uniqueResult" type="java.lang.String"*/-->
+                <span class="help-block" th:if="${uniqueResult != null}">
+                    <p class="alert alert-info" th:text="${uniqueResult}"></p>
+                </span>
+            </div>
+        </div>
+    </form>
+
+    <hr/>
+    <form th:action="@{/arrays/allUniqueChars/without}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-label-group">
+                    <label for="asciiStringWithout">areAllUniqueChars_withoutADT()</label>
+                </div>
+            </div>
+            <div class="col-9">
+                <input type="text" id="asciiStringWithout" name="asciiStringWithout" class="form-control" autofocus
+                       autocomplete="off" placeholder="Enter a string"/>
+                <button class="btn btn-success" type="submit">Assess</button>
+                <!--/*@thymesVar id="uniqueResult2" type="java.lang.String"*/-->
+                <span class="help-block" th:if="${uniqueResult2 != null}">
+                    <p class="alert alert-info" th:text="${uniqueResult2}"></p>
+                </span>
+            </div>
+        </div>
+    </form>
+    <a class="btn btn-success" th:href="@{/arrays/allUniqueChars/demo}">Refresh page</a>
+    <a class="btn btn-success" th:href="@{/arrays/allUniqueChars}">Go back</a>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

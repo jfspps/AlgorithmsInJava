@@ -9,8 +9,10 @@
 <div class="container">
     <h1>Deducing if an array of ASCII characters is unique or not</h1>
 
-    <p>Deciding whether an array is composed of unique characters or not is implemented with and without another array,
-        which tallies the number of times an ASCII character appears in the string.</p>
+    <p>
+        Deciding whether an array is composed of unique characters or not is implemented with and without another array,
+        which tallies the number of times an character appears in the string.
+    </p>
 
     <pre>
         <code class="lang-java">
@@ -27,18 +29,24 @@
 
     <p>
         The first approach employs a tallying array. When one of the tally elements has been assigned a value of one,
-        any further addition to the element returns returns.
+        any further addition to the element returns returns. Given the limit imposed on the tally array, only ASCII
+        characters can be compared.
     </p>
 
     <pre>
         <code>
         // with ADT (i.e. an array which records which characters are present) is O(n)
         public boolean areAllUniqueChars_withADT(){
-            for (int i = 0; i &lt; this.input.length(); i++){
-                tallyArray[this.input.charAt(i)]++;
+            for (int i = 0; i < this.input.length(); i++){
+                char character = this.input.charAt(i);
+                if ((int) character < 32 || (int) character > 159){
+                    System.out.println("Only ASCII characters should be entered.");
+                    return false;
+                }
+                tallyArray[character - 32]++;
 
-                if (tallyArray[this.input.charAt(i)] &gt; 1){
-                    System.out.println("With ADT. Duplicated character found: " + this.input.charAt(i));
+                if (tallyArray[character - 32] > 1){
+                    System.out.println("With ADT. Duplicated character found: " + character);
                     return false;
                 }
             }
@@ -48,32 +56,19 @@
         </code>
     </pre>
 
-    <hr/>
-    <form th:action="@{/arrays/allUniqueChars/with}" method="get" class="form-signin">
-        <div class="row">
-            <div class="col-3">
-                <div class="form-label-group">
-                    <label for="asciiStringWith">Enter an ASCII string: </label>
-                </div>
-            </div>
-            <div class="col-9">
-                <input type="text" id="asciiStringWith" name="asciiStringWith" class="form-control" autofocus autocomplete="off"/>
-                <button class="btn btn-success" type="submit">Assess</button>
-            </div>
-        </div>
-    </form>
-    <hr/>
+    <p>Try out areAllUniqueChars_withADT() <a th:href="@{/arrays/allUniqueChars/demo}">here</a>.</p>
 
     <p>
-        The following approach takes longer to process without a tallying array.
+        The following approach takes longer to process without a tallying array. There is no restriction with the character
+        set applied.
     </p>
 
     <pre>
         <code>
         // without ADT is O(n^2)
         public boolean areAllUniqueChars_withoutADT(){
-            for (int i = 0; i &lt; this.input.length(); i++){
-                for (int j = i+1; j &lt; this.input.length(); j++){
+            for (int i = 0; i < this.input.length(); i++){
+                for (int j = i+1; j < this.input.length(); j++){
                     if (this.input.charAt(i) == this.input.charAt(j)){
                         System.out.println("Without ADT. Duplicated character found: " + this.input.charAt(i));
                         return false;
@@ -86,21 +81,7 @@
         </code>
     </pre>
 
-    <hr/>
-    <form th:action="@{/arrays/allUniqueChars/without}" method="get" class="form-signin">
-        <div class="row">
-            <div class="col-3">
-                <div class="form-label-group">
-                    <label for="asciiStringWith">Enter an ASCII string: </label>
-                </div>
-            </div>
-            <div class="col-9">
-                <input type="text" id="asciiStringWithout" name="asciiStringWithout" class="form-control" autofocus autocomplete="off"/>
-                <button class="btn btn-success" type="submit">Assess</button>
-            </div>
-        </div>
-    </form>
-    <hr/>
+    <p>Try out areAllUniqueChars_withoutADT() <a th:href="@{/arrays/allUniqueChars/demo}">here</a>.</p>
 </div>
 
 <footer th:replace="fragments/footer :: footer">

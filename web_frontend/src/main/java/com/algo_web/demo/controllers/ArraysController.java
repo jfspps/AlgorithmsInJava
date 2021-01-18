@@ -1,8 +1,11 @@
 package com.algo_web.demo.controllers;
 
+import com.algo_data.arrays.AllUniqueChars;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -25,15 +28,26 @@ public class ArraysController {
         return "/arrays/allUniqueChars";
     }
 
-    @GetMapping("/allUniqueChars/with")
-    public String postUniqueWith(String asciiStringWith){
-        log.info(asciiStringWith);
-        return "/arrays/allUniqueChars";
+    @GetMapping({"/allUniqueChars/demo"})
+    public String getAllUniqueCharsDemo(){
+        return "/arrays/allUniqueCharsDemo";
     }
 
-    @GetMapping("/allUniqueChars/without")
-    public String postUniqueWithout(String asciiStringWithout){
+    @PostMapping("/allUniqueChars/with")
+    public String postUniqueWith(String asciiStringWith, Model model){
+        log.info(asciiStringWith);
+        AllUniqueChars uniqueChars = new AllUniqueChars(asciiStringWith);
+        String message = "Entered: " + asciiStringWith + ". String is unique: " + uniqueChars.areAllUniqueChars_withADT();
+        model.addAttribute("uniqueResult", message);
+        return "/arrays/allUniqueCharsDemo";
+    }
+
+    @PostMapping("/allUniqueChars/without")
+    public String postUniqueWithout(String asciiStringWithout, Model model){
         log.info(asciiStringWithout);
-        return "/arrays/allUniqueChars";
+        AllUniqueChars uniqueChars = new AllUniqueChars(asciiStringWithout);
+        String message = "Entered: " + asciiStringWithout + ". String is unique: " + uniqueChars.areAllUniqueChars_withoutADT();
+        model.addAttribute("uniqueResult2", message);
+        return "/arrays/allUniqueCharsDemo";
     }
 }

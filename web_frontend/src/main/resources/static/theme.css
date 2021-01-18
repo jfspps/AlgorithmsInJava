@@ -31,8 +31,10 @@ label {
 
 hr {
     margin-top: 1.1rem;
+    background-color: darkorange;
 }
 
 button {
     margin-top: 1.1rem;
+    margin-bottom: 1.1rem;
 }

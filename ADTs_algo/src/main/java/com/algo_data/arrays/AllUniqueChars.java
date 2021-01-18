@@ -13,10 +13,15 @@ public class AllUniqueChars {
     // with ADT (i.e. an array which records which characters are present) is O(n)
     public boolean areAllUniqueChars_withADT(){
         for (int i = 0; i < this.input.length(); i++){
-            tallyArray[this.input.charAt(i)]++;
+            char character = this.input.charAt(i);
+            if ((int) character < 32 || (int) character > 159){
+                System.out.println("Only ASCII characters should be entered.");
+                return false;
+            }
+            tallyArray[character - 32]++;
 
-            if (tallyArray[this.input.charAt(i)] > 1){
-                System.out.println("With ADT. Duplicated character found: " + this.input.charAt(i));
+            if (tallyArray[character - 32] > 1){
+                System.out.println("With ADT. Duplicated character found: " + character);
                 return false;
             }
         }
