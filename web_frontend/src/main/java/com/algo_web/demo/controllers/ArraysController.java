@@ -110,4 +110,19 @@ public class ArraysController {
         model.addAttribute("oneAway", message);
         return "/arrays/oneOpDemo";
     }
+
+    @GetMapping("/compression")
+    public String getCompression(){ return "/arrays/compression"; }
+
+    @GetMapping("/compression/demo")
+    public String getCompressionDemo(){ return "/arrays/compressionDemo"; }
+
+    @PostMapping("/compression/demo")
+    public String postCompressionDemo(String stringEntered, Model model){
+        log.info(stringEntered);
+        StringCompression stringCompression = new StringCompression(stringEntered);
+        String message = "\"" + stringEntered + "\" compressed to \"" + stringCompression.compress() + "\"";
+        model.addAttribute("compressed", message);
+        return "/arrays/compressionDemo";
+    }
 }

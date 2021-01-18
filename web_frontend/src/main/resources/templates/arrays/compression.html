@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>String compression</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Compressing a string</h1>
+
+    <p>
+        A string can be shortened by replacing consecutive, repeated characters with the repeated character followed by
+        a digit that indicates the number of times the character is repeated. For example, "dooodleZOOOoM" becomes
+        "do3dleZO3oM".
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private final String input;
+
+        public StringCompression(String input){
+            this.input = input;
+        }
+        </code>
+    </pre>
+
+    <p>
+        A compressed string is built as pointer i traverses along this.input. Pointer j is never behind pointer i, and
+        looks for repeated characters, tallying an integer, tally, the value of which forms the basis of the repeated
+        set of characters.
+    </p>
+
+    <pre>
+        <code>
+        // time complexity is O(i + j) (higher indices i would reduce j, and vice versa for consecutive elements) or just O(n)
+        public String compress(){
+            //i tail pointer, j lead pointer, k traverses compressedString[]
+            int i = 0, j, k = 0;
+            char[] compressedString = new char[this.input.length()];
+
+            while (i < this.input.length()){
+                compressedString[k++] = this.input.charAt(i);
+                int tally = 1;      // there is one of compressedString[i]
+
+                // pointer j moves one element ahead of pointer i and looks for repeated characters
+                for (j = i+1; j < this.input.length(); j++){
+                    if (this.input.charAt(i) == this.input.charAt(j)){
+                        tally++;
+                    } else {
+                        // no repeated characters, let i catch up to j
+                        break;
+                    }
+                }
+                i = j;
+
+                // add digit if there are repeated characters
+                if (tally > 1) {
+                    compressedString[k++] = Character.forDigit(tally, 10);
+                }
+            }
+            return new String(compressedString).replace("\0", "");
+        }
+        </code>
+    </pre>
+
+    <p>Try out compress() <a th:href="@{/arrays/compression/demo}">here</a>.</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

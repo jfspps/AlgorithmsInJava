@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>String compression</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Compressing a string</h1>
+
+    <p>Try out the methods below.</p>
+
+    <form th:action="@{/arrays/compression/demo}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-label-group">
+                    <label for="asciiString">Enter a string </label>
+                </div>
+            </div>
+            <div class="col-9">
+                <input type="text" id="asciiString" name="stringEntered" class="form-control" autofocus
+                       autocomplete="off" placeholder="Enter a string"/>
+                <button class="btn btn-success" type="submit">Compress</button>
+                <!--/*@thymesVar id="compressed" type="java.lang.String"*/-->
+                <span class="help-block" th:if="${compressed != null}">
+                    <p class="alert alert-info" th:text="${compressed}"></p>
+                </span>
+            </div>
+        </div>
+    </form>
+
+    <a class="btn btn-success" th:href="@{/arrays/compression/demo}">Refresh page</a>
+    <a class="btn btn-success" th:href="@{/arrays/compression}">Go back</a>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
