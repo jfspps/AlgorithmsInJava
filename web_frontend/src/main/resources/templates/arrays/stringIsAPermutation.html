@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>String anagrams</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Deducing if a string is a permutation (anagram) of another</h1>
+
+    <p>
+        This algorithm starts by building a tallying array of character occurrences for both strings and then comparing
+        the tallying arrays. The comparison works by comparing ASCII strings only.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private final String input;
+        private final int[] tallyArray;     // hold the number of times an ASCII character appears in this string
+
+        public StringIsAPermutation(String input) {
+            this.input = input;
+            tallyArray = new int[128];  //all elements are padded with zeros
+        }
+        </code>
+    </pre>
+
+    <p>
+        The method, isAPermutation() is given below, with its helper function talliesAreEqual().
+    </p>
+
+    <pre>
+        <code>
+        // time complexity is O(n + 128) or O(n)
+        public boolean isAPermutation(String compareToString){
+            //build the tally arrays (char's likely to appear in different orders) and then compare
+            if (this.input.length() != compareToString.length()){
+                System.out.println("Can only compare strings of equal length");
+                return false;
+            }
+
+            int[] compareToStringTally = new int[128];  // handle ASCII strings only
+
+            for (int i = 0; i < this.input.length(); i++){
+                char thisCharacter = this.input.charAt(i);
+                char compareCharacter = compareToString.charAt(i);
+                if ((int) thisCharacter < 32 || (int) thisCharacter > 159 ||
+                        (int) compareCharacter < 32 || (int) compareCharacter > 159){
+                    System.out.println("Only ASCII characters should be entered.");
+                    return false;
+                }
+
+                this.tallyArray[thisCharacter - 32]++;
+                compareToStringTally[compareCharacter - 32]++;
+            }
+
+            if (talliesAreEqual(compareToStringTally)){
+                System.out.println("Entered string is an anagram (permutation) of " + this.input);
+                return true;
+            } else {
+                System.out.println("Entered string is not an anagram (permutation) of " + this.input);
+                return false;
+            }
+        }
+
+        // helper method to compare the character tallies of this and compareToString
+        private Boolean talliesAreEqual(int[] compareToString){
+            for (int i = 0; i < this.tallyArray.length; i++){
+                if (this.tallyArray[i] != compareToString[i]){
+                    return false;
+                }
+            }
+            return true;
+        }
+        </code>
+    </pre>
+
+    <p>Try out isAPermutation() <a th:href="@{/arrays/stringIsAPermutation/demo}">here</a>.</p>
+
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
