@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Matrix operations</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Transposition and rotation of matrices</h1>
+
+    <p>
+        The rotation of a matrix by ninety degrees to the right can be achieved using two consecutive operations:
+        flipAlongHorizontal() followed by transposition().
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private final int[][] matrix;
+
+        public RotateMatrix(int[][] matrix) {
+            this.matrix = matrix;
+        }
+        </code>
+    </pre>
+
+    <p>
+        One can transpose a matrix along the diagonal with:
+    </p>
+
+    <pre>
+        <code>
+        // in place changes, time complexity is O(N*N/2) or just O(n^2)
+        public RotateMatrix transposeMatrix(){
+            // start off of the diagonal, hence second row, this.matrix[1]
+            for (int row = 1; row < this.matrix.length; row++){
+                // cycle through above row, left-to-right
+                // stop when row == col, the diagonal
+                for (int col = 0; col < row; col++){
+                    int temp = this.matrix[row][col];
+
+                    // swapping the coords gives the element across the diagonal
+                    this.matrix[row][col] = this.matrix[col][row];
+                    this.matrix[col][row] = temp;
+                }
+            }
+            return this;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Elements along a row can be exchanged, using flipAlongHorizontal():
+    </p>
+
+    <pre>
+        <code>
+        // in place changes, time complexity is O(N*N/2) or just O(n^2)
+        public RotateMatrix flipAlongHorizontal(){
+            for (int row = 0; row < this.matrix.length; row++){
+                // perform exchange by swapping the ith element with the [length-(i + 1)]th element
+                // until col is halfway along
+                for (int col = 0; col < this.matrix.length/2; col++){
+                    int temp = this.matrix[row][col];
+                    this.matrix[row][col] = this.matrix[row][this.matrix.length - col - 1];
+                    this.matrix[row][this.matrix.length - col - 1] = temp;
+                }
+            }
+            return this;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The application of both methods allows one to rotate the matrix:
+    </p>
+
+    <pre>
+        <code>
+        // in place changes, time complexity is O(N*N/2 + N*N/2) or just O(n^2)
+        public RotateMatrix rotateNinetyDegrees(){
+            this.transposeMatrix();
+            this.flipAlongHorizontal();
+            return this;
+        }
+        </code>
+    </pre>
+
+    <p>
+        To build a string and subsequently print the results, use printMatrix():
+    </p>
+
+    <pre>
+        <code>
+        public String printMatrix(){
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < this.matrix.length; i++){
+                for (int j = 0; j < this.matrix[i].length; j++){
+                    stringBuilder.append(this.matrix[i][j]);
+                    stringBuilder.append(' ');
+                }
+                stringBuilder.append('\n');
+            }
+            return stringBuilder.toString();
+        }
+        </code>
+    </pre>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

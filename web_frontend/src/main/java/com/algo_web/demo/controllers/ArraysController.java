@@ -125,4 +125,7 @@ public class ArraysController {
         model.addAttribute("compressed", message);
         return "/arrays/compressionDemo";
     }
+
+    @GetMapping("/matrixRotation")
+    public String getMatrixRotation(){ return "/arrays/rotateMatrix"; }
 }
