@@ -168,4 +168,31 @@ public class ArraysController {
         model.addAttribute("rotated", rotatedMatrix);
         return "/arrays/rotateMatrixDemo";
     }
+
+    @GetMapping("/zeroMatrix")
+    public String getZeroMatrix(){ return "/arrays/zeroMatrix"; }
+
+    @GetMapping("/zeroMatrix/demo")
+    public String getZeroMatrixDemo(){ return "/arrays/zeroMatrixDemo"; }
+
+    @PostMapping("/zeroMatrix/demo")
+    public String postZeroMatrixDemo(String one, String two, String three, String four, String five, String six,
+                                         String seven, String eight, String nine, String column, String row, Model model){
+        log.info(one + " " + two + " " + three);
+        log.info(four + " " + five + " " + six);
+        log.info(seven + " " + eight + " " + nine);
+
+        int[][] matrix = {
+                {Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three)},
+                {Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six)},
+                {Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)}
+        };
+
+        model.addAttribute("matrix", new RotateMatrix(matrix).printMatrix());
+
+        String flaggedMatrix = new ZeroAMatrix(matrix).flagZeroElements(Integer.parseInt(row)-1, Integer.parseInt(column)-1).printMatrix();
+
+        model.addAttribute("flagged", flaggedMatrix);
+        return "/arrays/zeroMatrixDemo";
+    }
 }

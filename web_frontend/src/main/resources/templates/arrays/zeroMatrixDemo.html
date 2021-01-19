@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Zeroing columns and rows</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Zeroing columns and rows of matrices</h1>
+
+    <p>
+        Change the integer values (negative values not permitted in this example), set the row and column numbers that
+        should be flagged and then click Process.
+    </p>
+
+    <form th:action="@{/arrays/zeroMatrix/demo}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-1">
+                <div class="input-group mb-3">
+                    <div><input type="number" class="form-control" min="0" th:value="1" placeholder="1" name="one"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="4" placeholder="4" name="four"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="7" placeholder="7" name="seven"></div>
+                </div>
+            </div>
+
+            <div class="col-1">
+                <div><input type="number" class="form-control" min="0" th:value="2" placeholder="2" name="two"></div>
+                <div><input type="number" class="form-control" min="0" th:value="5" placeholder="5" name="five"></div>
+                <div><input type="number" class="form-control" min="0" th:value="8" placeholder="8" name="eight"></div>
+            </div>
+
+            <div class="col-1">
+                <div><input type="number" class="form-control" min="0" th:value="3" placeholder="3" name="three"></div>
+                <div><input type="number" class="form-control" min="0" th:value="6" placeholder="6" name="six"></div>
+                <div><input type="number" class="form-control" min="0" th:value="9" placeholder="9" name="nine"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <label>Enter row number:
+                    <input type="number" class="form-control" th:value="3" min="1" max="3" placeholder="3" name="row">
+                </label>
+
+                <label>Enter column number:
+                    <input type="number" class="form-control" th:value="3" min="1" max="3" placeholder="3" name="column">
+                </label>
+
+                <div>
+                    <button class="btn btn-success" type="submit">Negate (flag) elements</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--/*@thymesVar id="flagged" type="java.lang.String"*/-->
+    <div class="row" th:if="${flagged != null}">
+        <!--/*@thymesVar id="matrix" type="java.lang.String"*/-->
+        <div class="col-2" th:if="${matrix != null}">
+            <div class="form-group">
+                <label for="matrix1">Original matrix</label>
+                <textarea class="form-control rounded-0" id="matrix1" rows="3" cols="1" th:text="${matrix}"
+                          readonly></textarea>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <label for="flagged">Flagged matrix</label>
+                <textarea class="form-control rounded-0" id="flagged" rows="3" cols="4" th:text="${flagged}"
+                          readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <a class="btn btn-success" th:href="@{/arrays/zeroMatrix/demo}">Refresh page</a>
+    <a class="btn btn-success" th:href="@{/arrays/zeroMatrix}">Go back</a>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

@@ -5,7 +5,7 @@ public class RotateMatrix {
     // this class rotates an NxN matrix 90 degrees to the right
     // the matrix is flipped along the diagonal (transposed) and then flipped vertically
 
-    private int[][] matrix;
+    private final int[][] matrix;
 
     public RotateMatrix(int[][] matrix) {
         this.matrix = matrix;
