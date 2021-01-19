@@ -128,4 +128,44 @@ public class ArraysController {
 
     @GetMapping("/matrixRotation")
     public String getMatrixRotation(){ return "/arrays/rotateMatrix"; }
+
+    @GetMapping("/matrixRotation/demo")
+    public String getMatrixRotationDemo(){ return "/arrays/rotateMatrixDemo"; }
+
+    @PostMapping("/matrixRotation/demo")
+    public String postMatrixRotationDemo(String one, String two, String three, String four, String five, String six,
+                                         String seven, String eight, String nine, Model model){
+        log.info(one + " " + two + " " + three);
+        log.info(four + " " + five + " " + six);
+        log.info(seven + " " + eight + " " + nine);
+
+        int[][] matrix = {
+                {Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three)},
+                {Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six)},
+                {Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)}
+        };
+
+        model.addAttribute("matrix", new RotateMatrix(matrix).printMatrix());
+
+        int[][] matrix2 = {
+                {Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three)},
+                {Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six)},
+                {Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)}
+        };
+
+        int[][] matrix3 = {
+                {Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three)},
+                {Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six)},
+                {Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)}
+        };
+
+        String flippedMatrix = new RotateMatrix(matrix).flipAlongHorizontal().printMatrix();
+        String transposedMatrix = new RotateMatrix(matrix2).transposeMatrix().printMatrix();
+        String rotatedMatrix = new RotateMatrix(matrix3).rotateNinetyDegrees().printMatrix();
+
+        model.addAttribute("flipped", flippedMatrix);
+        model.addAttribute("transposed", transposedMatrix);
+        model.addAttribute("rotated", rotatedMatrix);
+        return "/arrays/rotateMatrixDemo";
+    }
 }
