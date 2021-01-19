@@ -175,8 +175,8 @@ public class ArraysController {
     @GetMapping("/zeroMatrix/demo")
     public String getZeroMatrixDemo(){ return "/arrays/zeroMatrixDemo"; }
 
-    @PostMapping("/zeroMatrix/demo")
-    public String postZeroMatrixDemo(String one, String two, String three, String four, String five, String six,
+    @PostMapping("/zeroMatrix/flagged")
+    public String postZeroMatrixDemoFlag(String one, String two, String three, String four, String five, String six,
                                          String seven, String eight, String nine, String column, String row, Model model){
         log.info(one + " " + two + " " + three);
         log.info(four + " " + five + " " + six);
@@ -189,10 +189,49 @@ public class ArraysController {
         };
 
         model.addAttribute("matrix", new RotateMatrix(matrix).printMatrix());
-
         String flaggedMatrix = new ZeroAMatrix(matrix).flagZeroElements(Integer.parseInt(row)-1, Integer.parseInt(column)-1).printMatrix();
-
         model.addAttribute("flagged", flaggedMatrix);
+
+        return "/arrays/zeroMatrixDemo";
+    }
+
+    @PostMapping("/zeroMatrix/init")
+    public String postZeroMatrixDemoZero(String one, String two, String three, String four, String five, String six,
+                                     String seven, String eight, String nine, Model model){
+        log.info(one + " " + two + " " + three);
+        log.info(four + " " + five + " " + six);
+        log.info(seven + " " + eight + " " + nine);
+
+        int[][] matrix = {
+                {Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three)},
+                {Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six)},
+                {Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)}
+        };
+
+        model.addAttribute("matrix", new RotateMatrix(matrix).printMatrix());
+        String initMatrix = new ZeroAMatrix(matrix).initialiseZeroElements().printMatrix();
+        model.addAttribute("initMatrix", initMatrix);
+
+        return "/arrays/zeroMatrixDemo";
+    }
+
+    @PostMapping("/zeroMatrix/setToZero")
+    public String postZeroMatrixDemoSetToZero(String one, String two, String three, String four, String five, String six,
+                                         String seven, String eight, String nine, Model model){
+        log.info(one + " " + two + " " + three);
+        log.info(four + " " + five + " " + six);
+        log.info(seven + " " + eight + " " + nine);
+
+        int[][] matrix = {
+                {Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three)},
+                {Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six)},
+                {Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)}
+        };
+
+        model.addAttribute("matrix", new RotateMatrix(matrix).printMatrix());
+        String zeroMatrix = new ZeroAMatrix(matrix).setToZero().printMatrix();
+        model.addAttribute("zeroMatrix", zeroMatrix);
+
         return "/arrays/zeroMatrixDemo";
     }
 }

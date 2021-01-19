@@ -9,69 +9,202 @@
 <div class="container">
     <h1>Zeroing columns and rows of matrices</h1>
 
-    <p>
-        Change the integer values (negative values not permitted in this example), set the row and column numbers that
-        should be flagged and then click Process.
-    </p>
+    <div th:if="${initMatrix == null && zeroMatrix == null}">
+        <h3>flagZeroElements()</h3>
 
-    <form th:action="@{/arrays/zeroMatrix/demo}" method="post" class="form-signin">
-        <div class="row">
-            <div class="col-1">
-                <div class="input-group mb-3">
-                    <div><input type="number" class="form-control" min="0" th:value="1" placeholder="1" name="one"></div>
-                    <div><input type="number" class="form-control" min="0" th:value="4" placeholder="4" name="four"></div>
-                    <div><input type="number" class="form-control" min="0" th:value="7" placeholder="7" name="seven"></div>
+        <p>
+            As mentioned, flagZeroElements() negates all elements in the given row and column ass zero.
+            Change the integer values (negative values not permitted in this example), set the row and column numbers that
+            should be flagged.
+        </p>
+
+        <form th:action="@{/arrays/zeroMatrix/flagged}" method="post" class="form-signin">
+            <div class="row">
+                <div class="col-1">
+                    <div class="input-group mb-3">
+                        <div><input type="number" class="form-control" min="0" th:value="1" placeholder="1" name="one"></div>
+                        <div><input type="number" class="form-control" min="0" th:value="4" placeholder="4" name="four"></div>
+                        <div><input type="number" class="form-control" min="0" th:value="7" placeholder="7" name="seven"></div>
+                    </div>
+                </div>
+
+                <div class="col-1">
+                    <div><input type="number" class="form-control" min="0" th:value="2" placeholder="2" name="two"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="5" placeholder="5" name="five"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="8" placeholder="8" name="eight"></div>
+                </div>
+
+                <div class="col-1">
+                    <div><input type="number" class="form-control" min="0" th:value="3" placeholder="3" name="three"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="6" placeholder="6" name="six"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="9" placeholder="9" name="nine"></div>
                 </div>
             </div>
 
-            <div class="col-1">
-                <div><input type="number" class="form-control" min="0" th:value="2" placeholder="2" name="two"></div>
-                <div><input type="number" class="form-control" min="0" th:value="5" placeholder="5" name="five"></div>
-                <div><input type="number" class="form-control" min="0" th:value="8" placeholder="8" name="eight"></div>
+            <div class="row">
+                <div class="col-3">
+                    <label>Enter row number:
+                        <input type="number" class="form-control" th:value="3" min="1" max="3" placeholder="3" name="row">
+                    </label>
+
+                    <label>Enter column number:
+                        <input type="number" class="form-control" th:value="3" min="1" max="3" placeholder="3" name="column">
+                    </label>
+                </div>
+
+                <div class="col-3">
+                    <button class="btn btn-success" type="submit">Negate elements in row and column</button>
+                </div>
+            </div>
+        </form>
+
+        <!--/*@thymesVar id="flagged" type="java.lang.String"*/-->
+        <div class="row" th:if="${flagged != null}">
+            <!--/*@thymesVar id="matrix" type="java.lang.String"*/-->
+            <div class="col-2" th:if="${matrix != null}">
+                <div class="form-group">
+                    <label for="matrix1">Original matrix</label>
+                    <textarea class="form-control rounded-0" id="matrix1" rows="3" cols="1" th:text="${matrix}"
+                              readonly></textarea>
+                </div>
             </div>
 
-            <div class="col-1">
-                <div><input type="number" class="form-control" min="0" th:value="3" placeholder="3" name="three"></div>
-                <div><input type="number" class="form-control" min="0" th:value="6" placeholder="6" name="six"></div>
-                <div><input type="number" class="form-control" min="0" th:value="9" placeholder="9" name="nine"></div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-3">
-                <label>Enter row number:
-                    <input type="number" class="form-control" th:value="3" min="1" max="3" placeholder="3" name="row">
-                </label>
-
-                <label>Enter column number:
-                    <input type="number" class="form-control" th:value="3" min="1" max="3" placeholder="3" name="column">
-                </label>
-
-                <div>
-                    <button class="btn btn-success" type="submit">Negate (flag) elements</button>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="flagged">Flagged matrix</label>
+                    <textarea class="form-control rounded-0" id="flagged" rows="3" cols="4" th:text="${flagged}"
+                              readonly></textarea>
                 </div>
             </div>
         </div>
-    </form>
 
-    <!--/*@thymesVar id="flagged" type="java.lang.String"*/-->
-    <div class="row" th:if="${flagged != null}">
-        <!--/*@thymesVar id="matrix" type="java.lang.String"*/-->
-        <div class="col-2" th:if="${matrix != null}">
-            <div class="form-group">
-                <label for="matrix1">Original matrix</label>
-                <textarea class="form-control rounded-0" id="matrix1" rows="3" cols="1" th:text="${matrix}"
-                          readonly></textarea>
+        <p>
+            What decides which row and column are negated depends on the location of any zero-valued elements found. This is
+            where initialiseZeroElements() comes in.
+        </p>
+
+        <hr/>
+    </div>
+
+    <div th:if="${flagged == null && zeroMatrix == null}">
+        <h3>initialiseZeroElements()</h3>
+
+        <p>
+            The method initialiseZeroElements() looks for any zero-valued elements and passes the coordinates of the element
+            to flagZeroElements(). The elements are then marked or flagged in preparation for setToZero().
+        </p>
+
+        <form th:action="@{/arrays/zeroMatrix/init}" method="post" class="form-signin">
+            <div class="row">
+                <div class="col-1">
+                    <div class="input-group mb-3">
+                        <div><input type="number" class="form-control" min="0" th:value="1" placeholder="1" name="one"></div>
+                        <div><input type="number" class="form-control" min="0" th:value="4" placeholder="4" name="four"></div>
+                        <div><input type="number" class="form-control" min="0" th:value="7" placeholder="7" name="seven"></div>
+                    </div>
+                </div>
+
+                <div class="col-1">
+                    <div><input type="number" class="form-control" min="0" th:value="2" placeholder="2" name="two"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="5" placeholder="5" name="five"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="8" placeholder="8" name="eight"></div>
+                </div>
+
+                <div class="col-1">
+                    <div><input type="number" class="form-control" min="0" th:value="3" placeholder="3" name="three"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="6" placeholder="6" name="six"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="9" placeholder="9" name="nine"></div>
+                </div>
+
+                <div class="col-3">
+                    <button class="btn btn-success" type="submit">Negate based on zero-elements</button>
+                </div>
+            </div>
+        </form>
+
+        <!--/*@thymesVar id="initMatrix" type="java.lang.String"*/-->
+        <div class="row" th:if="${initMatrix != null}">
+            <!--/*@thymesVar id="matrix" type="java.lang.String"*/-->
+            <div class="col-2" th:if="${matrix != null}">
+                <div class="form-group">
+                    <label for="matrix2">Original matrix</label>
+                    <textarea class="form-control rounded-0" id="matrix2" rows="3" cols="1" th:text="${matrix}"
+                              readonly></textarea>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="negated">Negated matrix</label>
+                    <textarea class="form-control rounded-0" id="negated" rows="3" cols="4" th:text="${initMatrix}"
+                              readonly></textarea>
+                </div>
             </div>
         </div>
 
-        <div class="col-4">
-            <div class="form-group">
-                <label for="flagged">Flagged matrix</label>
-                <textarea class="form-control rounded-0" id="flagged" rows="3" cols="4" th:text="${flagged}"
-                          readonly></textarea>
+        <p>
+            With the elements marked, setToZero() then completes the process and converts the negative values to zero.
+        </p>
+
+        <hr/>
+    </div>
+
+    <div th:if="${flagged == null && initMatrix == null}">
+        <h3>setToZero()</h3>
+
+        <p>
+            The method setToZero() looks for any negative-valued elements and sets the element to zero. The demonstration below
+            combines all method calls. Change the values to include a few zero elements to observe the behaviour.
+        </p>
+
+        <form th:action="@{/arrays/zeroMatrix/setToZero}" method="post" class="form-signin">
+            <div class="row">
+                <div class="col-1">
+                    <div class="input-group mb-3">
+                        <div><input type="number" class="form-control" min="0" th:value="1" placeholder="1" name="one"></div>
+                        <div><input type="number" class="form-control" min="0" th:value="4" placeholder="4" name="four"></div>
+                        <div><input type="number" class="form-control" min="0" th:value="7" placeholder="7" name="seven"></div>
+                    </div>
+                </div>
+
+                <div class="col-1">
+                    <div><input type="number" class="form-control" min="0" th:value="2" placeholder="2" name="two"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="5" placeholder="5" name="five"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="8" placeholder="8" name="eight"></div>
+                </div>
+
+                <div class="col-1">
+                    <div><input type="number" class="form-control" min="0" th:value="3" placeholder="3" name="three"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="6" placeholder="6" name="six"></div>
+                    <div><input type="number" class="form-control" min="0" th:value="9" placeholder="9" name="nine"></div>
+                </div>
+
+                <div class="col-3">
+                    <button class="btn btn-success" type="submit">Set rows and columns to zero</button>
+                </div>
+            </div>
+        </form>
+
+        <!--/*@thymesVar id="zeroMatrix" type="java.lang.String"*/-->
+        <div class="row" th:if="${zeroMatrix != null}">
+            <!--/*@thymesVar id="matrix" type="java.lang.String"*/-->
+            <div class="col-2" th:if="${matrix != null}">
+                <div class="form-group">
+                    <label for="matrix3">Original matrix</label>
+                    <textarea class="form-control rounded-0" id="matrix3" rows="3" cols="1" th:text="${matrix}"
+                              readonly></textarea>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="zeroed">Zero'd matrix</label>
+                    <textarea class="form-control rounded-0" id="zeroed" rows="3" cols="4" th:text="${zeroMatrix}"
+                              readonly></textarea>
+                </div>
             </div>
         </div>
+        <hr/>
     </div>
 
     <a class="btn btn-success" th:href="@{/arrays/zeroMatrix/demo}">Refresh page</a>
