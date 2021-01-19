@@ -1,5 +1,6 @@
 body {
     background: darkslategrey;
+    padding-top: 60px;
 }
 
 p {
@@ -7,7 +8,7 @@ p {
     font-size: 1.1rem;
 }
 
-li {
+li:not(.nav-item) {
     color: lightyellow;
     font-size: 1.1rem;
     margin-bottom: 1.1rem;
@@ -41,7 +42,7 @@ hr {
     background-color: darkorange;
 }
 
-button {
+button.btn.btn-success {
     margin-top: 1.1rem;
     margin-bottom: 1.1rem;
 }
