@@ -234,4 +234,19 @@ public class ArraysController {
 
         return "/arrays/zeroMatrixDemo";
     }
+
+    @GetMapping("/rotateString")
+    public String getRotateString(){ return "/arrays/stringRotation"; }
+
+    @GetMapping("/rotateString/demo")
+    public String getRotateStringDemo(){ return "/arrays/stringRotationDemo"; }
+
+    @PostMapping("/rotateString/demo")
+    public String postRotateStringDemo(String stringA, String stringB, Model model){
+        log.info(stringA + " " + stringB);
+        StringRotation stringRotation = new StringRotation(stringA);
+        String message = "\"" + stringA + "\" is a rotation of \"" + stringB + "\": " + stringRotation.compareTo(stringB);
+        model.addAttribute("rotation", message);
+        return "/arrays/stringRotationDemo";
+    }
 }
