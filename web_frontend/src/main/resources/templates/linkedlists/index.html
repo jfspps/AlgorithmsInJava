@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Linked lists</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Linked lists</h1>
+
+    <p>
+        The sub-topics covered are:
+    </p>
+
+    <ul>
+        <li>List to set: removing duplicates from a linked list</li>
+        <li>Finding the kth-to-last element of a linked list</li>
+        <li>Deleting the middle node of a linked list, having been given the reference to the middle node
+            (not the head node)</li>
+        <li>Partitioning a linked list at node x, such that all nodes that are less than or equal to x are located to
+            the left</li>
+        <li>Building a sum expression from the digits stored in a linked list and then performing summation. The
+        digits can be read from the linked list left-to-right or right-to-left.</li>
+        <li>Check if a linked list spells out a palindrome</li>
+        <li>Return a reference (not value) to the intersection point of two singly linked lists, if any</li>
+        <li>Return a reference to the node where a loop begins in one singly linked list, if any</li>
+    </ul>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
