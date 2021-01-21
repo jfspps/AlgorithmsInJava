@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CustomArrayListTest {
+class ArrayListTest {
 
-    CustomArrayList<Integer> testIntArray;
-    CustomArrayList<Integer> builtArray;
+    ArrayList<Integer> testIntArray;
+    ArrayList<Integer> builtArray;
 
     @BeforeEach
     void setUp() {
-        testIntArray = new CustomArrayList<>(5);
-        builtArray = new CustomArrayList<>(10);
+        testIntArray = new ArrayList<>(5);
+        builtArray = new ArrayList<>(10);
         builtArray.add(1);
         builtArray.add(2);
         builtArray.add(3);

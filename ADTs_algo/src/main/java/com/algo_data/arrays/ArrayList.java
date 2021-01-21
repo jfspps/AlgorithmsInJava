@@ -1,12 +1,12 @@
 package com.algo_data.arrays;
 
-public class CustomArrayList<T> {
+public class ArrayList<T> {
 
     private T[] arrayList;
     private int capacity;
     private int length;
 
-    public CustomArrayList(int capacity) {
+    public ArrayList(int capacity) {
         if (capacity == 0){
             this.capacity = 1;
         } else
@@ -22,7 +22,7 @@ public class CustomArrayList<T> {
      */
     public void add(T newElement){
         if (length > 0 && capacity - length < 2){
-            CustomArrayList<T> newArray = new CustomArrayList<>(2 * this.capacity);
+            ArrayList<T> newArray = new ArrayList<>(2 * this.capacity);
             int thisLength = clone(newArray);
 
             newArray.arrayList[thisLength] = newElement;
@@ -50,7 +50,7 @@ public class CustomArrayList<T> {
      * Helper function that copies this.arrayList to a new array.
      * Returns this.length.
      */
-    private int clone(CustomArrayList<T> newArray) {
+    private int clone(ArrayList<T> newArray) {
         int i;
         for (i = 0; i < this.length; i++) {
             newArray.arrayList[i] = this.arrayList[i];
@@ -150,7 +150,7 @@ public class CustomArrayList<T> {
             this.arrayList[index] = newElement;
         } else {
             // build a new array just large enough
-            CustomArrayList<T> newArray = new CustomArrayList<>(index+1);
+            ArrayList<T> newArray = new ArrayList<>(index+1);
             this.clone(newArray);
 
             newArray.arrayList[index] = newElement;
