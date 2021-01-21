@@ -28,6 +28,9 @@ public class LinkedList<T> {
         }
     }
 
+    /**
+     * Traverses the entire list to find the length. Is always O(n)
+     * */
     public int length(){
         int count = 0;
         LinkedList<T> linkedList = this;
@@ -249,7 +252,7 @@ public class LinkedList<T> {
      * Deletes all nodes with the given data, if present. Cycles through the entire list, hence is always O(n);
      * Returns a reference to the first (head) node of the updated list and null if the list is emptied
      * */
-    public LinkedList<T> deleteAllWith(T data){
+    public LinkedList<T> deleteAllOf(T data){
         LinkedList<T> currentNode = this;       // traversal pointer
         LinkedList<T> currentHead = this;
 

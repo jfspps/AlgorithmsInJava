@@ -14,4 +14,9 @@ public class LinkedListsController {
     public String getIndex(){
         return "/linkedlists/index";
     }
+
+    @GetMapping("/customLinkedList")
+    public String getLinkedList(){
+        return "/linkedlists/customLinkedList";
+    }
 }

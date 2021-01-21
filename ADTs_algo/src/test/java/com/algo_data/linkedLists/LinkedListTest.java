@@ -120,22 +120,24 @@ class LinkedListTest {
     }
 
     @Test
-    void deleteAllWith() {
-        integerLinkedListFromArray = integerLinkedListFromArray.deleteAllWith(5);
+    void deleteAllOf() {
+        integerLinkedListFromArray = integerLinkedListFromArray.deleteAllOf(5);
         assertEquals(11, integerLinkedListFromArray.length());
+        integerLinkedListFromArray = integerLinkedListFromArray.deleteAllOf(2);
+        assertEquals(7, integerLinkedListFromArray.length());
         assertNotNull(integerLinkedListFromArray);
     }
 
     @Test
     void deleteAllWith_head() {
-        integerLinkedListFromArray = integerLinkedListFromArray.deleteAllWith(1);
+        integerLinkedListFromArray = integerLinkedListFromArray.deleteAllOf(1);
         assertEquals(11, integerLinkedListFromArray.length());
         assertNotNull(integerLinkedListFromArray);
     }
 
     @Test
     void deleteAllWith_tail() {
-        integerLinkedListFromArray = integerLinkedListFromArray.deleteAllWith(-8);
+        integerLinkedListFromArray = integerLinkedListFromArray.deleteAllOf(-8);
         assertEquals(12, integerLinkedListFromArray.length());
         assertNotNull(integerLinkedListFromArray);
     }

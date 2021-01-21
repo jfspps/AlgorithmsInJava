@@ -10,23 +10,23 @@
 <div class="container">
     <h1>Building a replica of Java's ArrayList</h1>
 
-    <p>The array is based on an abstract class, CustomArrayList. The properties and constructor are given below.</p>
+    <p>The array is based on an abstract class, ArrayList. The properties and constructor are given below.</p>
 
     <pre>
         <code class="lang-java">
-            private T[] arrayList;
-            private int capacity;
-            private int length;
+        private T[] arrayList;
+        private int capacity;
+        private int length;
 
-            public CustomArrayList(int capacity) {
-                if (capacity == 0){
-                    this.capacity = 1;
-                } else
-                    this.capacity = capacity;
+        public ArrayList(int capacity) {
+            if (capacity == 0){
+                this.capacity = 1;
+            } else
+                this.capacity = capacity;
 
-                this.arrayList = (T[]) new Object[this.capacity];
-                this.length = 0;
-            }
+            this.arrayList = (T[]) new Object[this.capacity];
+            this.length = 0;
+        }
         </code>
     </pre>
 
@@ -39,7 +39,7 @@
         <code>
         public void add(T newElement){
             if (length > 0 && capacity - length < 2){
-                CustomArrayList&lt;T&gt; newArray = new CustomArrayList&lt;&gt;(2 * this.capacity);
+                ArrayList&lt;T&gt; newArray = new ArrayList&lt;&gt;(2 * this.capacity);
                 int thisLength = clone(newArray);
 
                 newArray.arrayList[thisLength] = newElement;
@@ -71,7 +71,7 @@
 
     <pre>
         <code>
-        private int clone(CustomArrayList&lt;T&gt; newArray) {
+        private int clone(ArrayList&lt;T&gt; newArray) {
             int i;
             for (i = 0; i &lt; this.length; i++) {
                 newArray.arrayList[i] = this.arrayList[i];
@@ -171,7 +171,7 @@
                 this.arrayList[index] = newElement;
             } else {
                 // build a new array just large enough
-                CustomArrayList&lt;T&gt; newArray = new CustomArrayList&lt;&gt;(index+1);
+                ArrayList&lt;T&gt; newArray = new ArrayList&lt;&gt;(index + 1);
                 this.clone(newArray);
 
                 newArray.arrayList[index] = newElement;
@@ -182,6 +182,11 @@
         }
         </code>
     </pre>
+
+    <p>
+        Unit tests for all above methods are included with the
+        <a target="_blank" th:href="@{https://github.com/jfspps/AlgorithmsInJava}">GitHub</a> repository.
+    </p>
 </div>
 
 
