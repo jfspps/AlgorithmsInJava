@@ -2,7 +2,7 @@ package com.algo_data.linkedLists;
 
 // implementation of a singly linked-list (without loops)
 public class LinkedList<T> {
-    private LinkedList<T> next = null;
+    LinkedList<T> next = null;
     private T data;
 
     public LinkedList(T data) {

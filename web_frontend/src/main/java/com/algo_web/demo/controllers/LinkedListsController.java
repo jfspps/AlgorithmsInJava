@@ -19,4 +19,9 @@ public class LinkedListsController {
     public String getLinkedList(){
         return "/linkedlists/customLinkedList";
     }
+
+    @GetMapping("/removeDuplicates")
+    public String getRemoveDuplicates(){
+        return "/linkedlists/removeDuplicates";
+    }
 }

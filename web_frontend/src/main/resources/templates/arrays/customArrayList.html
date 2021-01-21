@@ -36,7 +36,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public void add(T newElement){
             if (length > 0 && capacity - length < 2){
                 ArrayList&lt;T&gt; newArray = new ArrayList&lt;&gt;(2 * this.capacity);
@@ -70,7 +70,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         private int clone(ArrayList&lt;T&gt; newArray) {
             int i;
             for (i = 0; i &lt; this.length; i++) {
@@ -87,7 +87,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public int size(){
             return this.length;
         }
@@ -128,7 +128,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public T removeElement(T element){
             int index = this.indexOf(element);
             T temp = null;
@@ -161,7 +161,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public void set(T newElement, int index){
             if (index &lt; 0){
                 return;

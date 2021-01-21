@@ -48,7 +48,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public int length(){
             int count = 0;
             LinkedList&lt;T&gt; linkedList = this;
@@ -72,7 +72,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public LinkedList&lt;T&gt; getNode(T data){
             if (this.data == data){
                 return this;
@@ -111,7 +111,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public LinkedList&lt;T&gt;[] getNodeList(T data, int i){
             LinkedList&lt;T&gt; currentNode = this;
             int currentLength = this.length();
@@ -156,7 +156,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public void append(T data){
             LinkedList&lt;T&gt; newEnd = new LinkedList&lt;&gt;(data);      // new Node referenced by newEnd
             LinkedList&lt;T&gt; thisLinkedList = this;                // grab head node
@@ -204,7 +204,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public LinkedList&lt;T&gt; insert(T precedingData, T data){
             LinkedList&lt;T&gt; precedingNode = getNode(precedingData);
 
@@ -254,7 +254,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public LinkedList&lt;T&gt; deleteData(T nodeData){
             LinkedList&lt;T&gt; currentLinkedList = this;
 
@@ -339,7 +339,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public String printToString(){
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -378,7 +378,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public String printRightPartition(LinkedList&lt;T&gt; k) {
             if (!nodeIsPresent(k))
                 return "Node not found in list";
@@ -414,7 +414,8 @@
 
     <p>
         Unit tests for all above methods are included with the
-        <a target="_blank" th:href="@{https://github.com/jfspps/AlgorithmsInJava}">GitHub</a> repository.
+        <a target="_blank" th:href="@{https://github.com/jfspps/AlgorithmsInJava}">GitHub</a> repository. This custom
+        ADT is also utilised in many of the linked-list related examples of the project.
     </p>
 </div>
 

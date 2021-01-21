@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Removing duplicates</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Removing duplicate entries from a linked list</h1>
+
+    <p>
+        This algorithm implements two methods, one with a tally array and one without, that search a linked list and
+        remove any duplicate data values found. Both methods utilise the custom linked list and are specific for
+        Java's Integer, although this can be generalised.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        LinkedList&lt;Integer&gt; linkedList;
+
+        public RemoveDuplicates(LinkedList&lt;Integer&gt; list) {
+            linkedList = list;
+        }
+
+        // with tally buffer (assume only integers between 0 and 1000 are applied)
+        // time complexity is O(n)
+        public void removeDuplicatesWithTally(){
+            int[] tally = new int[1000];
+
+            LinkedList&lt;Integer&gt; currentNode = this.linkedList;
+            tally[this.linkedList.getData()]++;
+            int count = 0;
+
+            while(currentNode.next != null){
+                if (tally[currentNode.next.getData()] == 0){
+                    tally[currentNode.next.getData()]++;
+                    currentNode = currentNode.next;
+                } else {
+                    //delete currentNode and move on
+                    currentNode.next = currentNode.next.next;
+                    count++;
+                }
+            }
+
+            System.out.println(count + " duplicates removed");
+        }
+        </code>
+    </pre>
+
+    <p>
+        When approached without a tallying array, the algorithm has a lower space complexity but higher time complexity.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        // without tally buffer; using two pointers
+        // time complexity is O(n^2)
+        public void removeDuplicatesWithoutTally(){
+            LinkedList&lt;Integer&gt; currentNode = this.linkedList;
+            LinkedList&lt;Integer&gt; leadPointer = currentNode;
+            int count = 0;
+
+            while (currentNode.next != null){
+                while (leadPointer.next != null) {
+                    if (!leadPointer.next.getData().equals(currentNode.getData())){
+                        leadPointer = leadPointer.next;
+                    } else {
+                        leadPointer.next = leadPointer.next.next;
+                        count++;
+                    }
+                }
+                currentNode = currentNode.next;
+                leadPointer = currentNode;
+            }
+
+            System.out.println(count + " duplicates removed");
+        }
+        </code>
+    </pre>
+
+    <p>Try out both methods <a th:href="@{/linkedlists/removeDuplicates/demo}">here</a>.</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

@@ -30,7 +30,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         // this helper method looks for zero elements, in preparation for flagZeroElements()
         public ZeroAMatrix initialiseZeroElements(){
             for (int row = 0; row < this.matrix.length; row++){
@@ -51,7 +51,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         // this method negates all elements in the given row and column
         private ZeroAMatrix flagZeroElements(int row_index, int col_index) {
             int row = 0, col = 0;
@@ -82,7 +82,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public ZeroAMatrix setToZero(){
             // first scan for elements where zero resides and negate all values in the same row and column
             initialiseZeroElements();
@@ -105,7 +105,7 @@
     </p>
 
     <pre>
-        <code>
+        <code class="lang-java">
         public String printMatrix(){
             StringBuilder stringBuilder = new StringBuilder();
             for (int[] row : this.matrix) {
