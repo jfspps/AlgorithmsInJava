@@ -321,7 +321,6 @@ public class LinkedList<T> {
         }
         stringBuilder.append("(Head) ").append(this.data).append(", ");
 
-        int count = 2;
         LinkedList<T> currentLinkedList = this.next;
         while (currentLinkedList.next != null){
             stringBuilder.append(currentLinkedList.data).append(", ");
