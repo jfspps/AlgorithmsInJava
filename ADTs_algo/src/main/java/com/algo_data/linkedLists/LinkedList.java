@@ -316,18 +316,18 @@ public class LinkedList<T> {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (this.next == null){
-            stringBuilder.append("Head: ").append(this.data).append("; END");
+            stringBuilder.append("(Head) ").append(this.data).append(" (Tail)");
             return stringBuilder.toString();
         }
-        stringBuilder.append("Head: ").append(this.data).append(", ");
+        stringBuilder.append("(Head) ").append(this.data).append(", ");
 
         int count = 2;
         LinkedList<T> currentLinkedList = this.next;
         while (currentLinkedList.next != null){
-            stringBuilder.append("node ").append(count).append(": ").append(currentLinkedList.data).append(", ");
+            stringBuilder.append(currentLinkedList.data).append(", ");
             currentLinkedList = currentLinkedList.next;
         }
-        stringBuilder.append("tail: ").append(currentLinkedList.data);
+        stringBuilder.append(currentLinkedList.data).append(" (Tail)");
         return stringBuilder.toString();
     }
 

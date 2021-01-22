@@ -152,7 +152,7 @@ class LinkedListTest {
 
     @Test
     void printToString() {
-        String output = "Head: x, node 2: y, tail: z";
+        String output = "(Head) x, y, z (Tail)";
         assertEquals(output, characterLinkedList.printToString());
     }
 

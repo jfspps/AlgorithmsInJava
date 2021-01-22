@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Removing duplicates</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Removing duplicate entries from a linked list</h1>
+
+    <p>
+        Change the integer values, introducing a few duplicated integers and click Process.
+    </p>
+
+    <form th:action="@{/linkedlists/removeDuplicates/demo}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <input type="number" class="form-control" th:value="1" placeholder="1" name="one">
+                    <input type="number" class="form-control" th:value="2" placeholder="2" name="two">
+                    <input type="number" class="form-control" th:value="3" placeholder="3" name="three">
+                    <input type="number" class="form-control" th:value="4" placeholder="4" name="four">
+                    <input type="number" class="form-control" th:value="5" placeholder="5" name="five">
+                    <input type="number" class="form-control" th:value="6" placeholder="6" name="six">
+                    <input type="number" class="form-control" th:value="7" placeholder="7" name="seven">
+                    <input type="number" class="form-control" th:value="8" placeholder="8" name="eight">
+                    <input type="number" class="form-control" th:value="9" placeholder="9" name="nine">
+                </div>
+                <div>
+                    <button class="btn btn-success" type="submit">Process</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row" th:if="${processed != null}">
+        <!--/*@thymesVar id="unprocessed" type="java.lang.String"*/-->
+        <div class="col-9" th:if="${unprocessed != null}">
+            <div class="form-group">
+                <label for="list">Original list</label>
+                <textarea class="form-control rounded-0" id="list" rows="1" th:text="${unprocessed}"
+                          readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!--/*@thymesVar id="processed" type="java.lang.String"*/-->
+    <div class="row" th:if="${processed != null}">
+        <div class="col-9">
+            <div class="form-group">
+                <label for="processedList">With tally</label>
+                <textarea class="form-control rounded-0" id="processedList" rows="1" th:text="${processed}"
+                          readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!--/*@thymesVar id="processed2" type="java.lang.String"*/-->
+    <div class="row" th:if="${processed2 != null}">
+        <div class="col-9">
+            <div class="form-group">
+                <label for="processedList2">Without tally</label>
+                <textarea class="form-control rounded-0" id="processedList2" rows="1" th:text="${processed2}"
+                          readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="form-group">
+                <a class="btn btn-success" th:href="@{/linkedlists/removeDuplicates/demo}">Refresh page</a>
+                <a class="btn btn-success" th:href="@{/linkedlists/removeDuplicates}">Go back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
