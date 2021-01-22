@@ -62,4 +62,11 @@ class PartitionAtNodePTest {
         LinkedList<Integer> partitionAt5 = partition.partition(5);
         assertEquals(partitionAtHead, partitionAt5.printToString());
     }
+
+    @Test
+    void partitionAtValueNotInList() {
+        String partitionAtHead = "(Head) 2, 3, 5, 5, 6, 10, 20, 14, 15, 98 (Tail)";
+        LinkedList<Integer> partitionAt7 = partition.partition(7);
+        assertEquals(partitionAtHead, partitionAt7.printToString());
+    }
 }

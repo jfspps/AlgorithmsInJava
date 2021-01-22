@@ -2,6 +2,7 @@ package com.algo_web.demo.controllers;
 
 import com.algo_data.linkedLists.FindKthToLast;
 import com.algo_data.linkedLists.LinkedList;
+import com.algo_data.linkedLists.PartitionAtNodeP;
 import com.algo_data.linkedLists.RemoveDuplicates;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -86,5 +87,38 @@ public class LinkedListsController {
 
         model.addAttribute("processed", processed);
         return "/linkedlists/findKthToLastDemo";
+    }
+
+    @GetMapping("/partition")
+    public String getPartitionAtNodeP(){
+        return "/linkedlists/partitionAtNodeP";
+    }
+
+    @GetMapping("/partition/demo")
+    public String getPartitionAtNodePDemo(){
+        return "/linkedlists/partitionAtNodePDemo";
+    }
+
+    @PostMapping("/partition/demo")
+    public String postPartitionAtNodePDemo(String one, String two, String three, String four, String five, String six,
+                                    String seven, String eight, String nine, String pValue, Model model) {
+        Integer[] numberList = {
+                Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three),
+                Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six),
+                Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)
+        };
+
+        LinkedList<Integer> integerLinkedList = new LinkedList<>(numberList);
+        String originalList = integerLinkedList.printToString();
+
+        PartitionAtNodeP partitionAtNodeP = new PartitionAtNodeP(integerLinkedList);
+
+        LinkedList<Integer> newHead = partitionAtNodeP.partition(Integer.parseInt(pValue));
+
+        String processed = "Original list: " + originalList + ", p = " + pValue +
+                "\nPartitioned list: " + newHead.printToString();
+
+        model.addAttribute("processed", processed);
+        return "/linkedlists/partitionAtNodePDemo";
     }
 }

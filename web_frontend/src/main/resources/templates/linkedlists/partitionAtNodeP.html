@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Partitioning a list</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Partitioning a list a node with value P</h1>
+
+    <p>
+        This algorithm partitions a singly linked list about a node with value P, such that all nodes which precede it
+        have lower values and nodes which proceed it have equal or higher values. The ordering within each partition is not
+        necessarily ordered numerically.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        LinkedList&lt;Integer&gt; head;
+
+        public PartitionAtNodeP(LinkedList&lt;Integer&gt; list) {
+            this.head = list;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The supplied list can be ordered or unordered. The original tail node reference is recorded. The method works by first
+        establishing the head node, sending all nodes at the start of the list, which have higher values, to the end
+        of the list. This check continues until the first node with a value less than P is found. The second stage then
+        proceeds to process all remaining nodes located before the original tail (those after it have already been
+        shuffled to the end anyway). Any node which is greater than or equal to the partitioning value is sent to the back of the
+        list. Time complexity is always O(n), with all nodes processed in sequence.
+    </p>
+
+    <p>
+        The method partition() returns a reference to the new head node.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public LinkedList&lt;Integer&gt; partition(int p){
+            if (head == null){
+                System.out.println("List is empty");
+                return null;
+            }
+
+            if (head.next == null){
+                System.out.println("List only contains one node");
+                return head;
+            }
+
+            //get to the tail Node
+            LinkedList&lt;Integer&gt; tail = head;
+            while (tail.next != null){
+                tail = tail.next;
+            }
+
+            // record the original tail node reference
+            LinkedList&lt;Integer&gt; originalTail = tail;
+
+            // 1. Establish the head node by shuffling the beginning nodes until node.data < p
+            // this part is at worst O(n)
+            while (head.getData() &gt;= p){
+                tail.next = head;
+                head = head.next;
+                tail.next.next = null;
+                tail = tail.next;
+            }
+            LinkedList&lt;Integer&gt; afterNewHead = head;
+
+            // 2. Process the remaining nodes up to and including the original tail node
+            while (afterNewHead != originalTail){
+                if (afterNewHead.next.getData() &gt;= p){
+                    // update links such that the node is linked to the tail
+                    tail.next = afterNewHead.next;
+                    afterNewHead.next = afterNewHead.next.next;
+                    tail.next.next = null;
+                    tail = tail.next;
+                }
+
+                // in cases when originalTail.data >= p, then afterNewHead != null is always true so this check exits the loop
+                if (originalTail.next == null) {
+                    break;
+                }
+
+                afterNewHead = afterNewHead.next;
+            }
+            return head;
+        }
+        </code>
+    </pre>
+
+    <p>Try out partition() <a th:href="@{/linkedlists/partition/demo}">here</a>.</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

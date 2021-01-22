@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Partitioning a list</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Partitioning a list a node with value p</h1>
+
+    <p>
+        Change the integer values, choose a value for p and click Partition.
+    </p>
+
+    <form th:action="@{/linkedlists/partition/demo}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <label class="form-check-label" for="head">(HEAD)</label>
+                    <input type="number" id="head" class="form-control" th:value="1" placeholder="1" name="one">
+                    <input type="number" class="form-control" th:value="2" placeholder="2" name="two">
+                    <input type="number" class="form-control" th:value="3" placeholder="3" name="three">
+                    <input type="number" class="form-control" th:value="4" placeholder="4" name="four">
+                    <input type="number" class="form-control" th:value="5" placeholder="5" name="five">
+                    <input type="number" class="form-control" th:value="6" placeholder="6" name="six">
+                    <input type="number" class="form-control" th:value="7" placeholder="7" name="seven">
+                    <input type="number" class="form-control" th:value="8" placeholder="8" name="eight">
+                    <input type="number" id="tail" class="form-control" th:value="9" placeholder="9" name="nine">
+                    <label class="form-check-label" for="tail">(TAIL)</label>
+                </div>
+                <div>
+                    <label>Value for p
+                        <input type="number" class="form-control" th:value="4" placeholder="4" name="pValue">
+                    </label>
+                    <button class="btn btn-success" type="submit">Partition</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--/*@thymesVar id="processed" type="java.lang.String"*/-->
+    <div class="row" th:if="${processed != null}">
+        <div class="col-9" >
+            <div class="form-group">
+                <label for="list">Original list with partitioned list</label>
+                <textarea class="form-control rounded-0" id="list" rows="2" th:text="${processed}"
+                          readonly></textarea>
+                <p>
+                    Note that the p may be located at the centre of the list or to the right-hand side of the list
+                    (all nodes to the right have values >= p). Look for the last node in the sequence from the left
+                    which has a value < p. This represents the partition point.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="form-group">
+                <a class="btn btn-success" th:href="@{/linkedlists/partition/demo}">Refresh page</a>
+                <a class="btn btn-success" th:href="@{/linkedlists/partition}">Go back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
