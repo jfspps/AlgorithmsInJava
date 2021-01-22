@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Finding the kth-to-last</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Finding the kth-to-last node of a singly linked list</h1>
+
+    <p>
+        This algorithm instructs a pointer to traverse a singly linked list until it finds the Kth to last node.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        LinkedList&lt;T&gt; list;
+
+        public FindKthToLast(LinkedList&lt;T&gt; list) {
+            this.list = list;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Indices are zero-based. The last node is represented by the pointer index, where index = length - 1 and length
+        = length of the list. The second to last element would be the length - 2 index. The kth-to-last element is thus
+        represented by index = length - k. The pointer is incremented while (index < length - k).
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        // time complexity is O(n)
+        public LinkedList&lt;T&gt; findKthToLast(int k){
+            if (list == null){
+                System.out.println("List is empty");
+                return null;
+            }
+
+            // length is decremented later
+            int length = list.length();
+
+            if (k > length){
+                System.out.println("Kth parameter is larger than the list length");
+                return null;
+            }
+
+            int nodeIndex = 0;
+            LinkedList&lt;T&gt; currentNode = list;
+            // k decreases from length to 1 as list traversed from head node
+            // start from the beginning, increment nodeIndex = 0 until (nodeIndex = length - k)
+            while (nodeIndex &lt; length - k && currentNode.next != null){
+                currentNode = currentNode.next;
+                nodeIndex++;
+            }
+
+            return currentNode;
+        }
+        </code>
+    </pre>
+
+    <p>Try out findKthToLast() <a th:href="@{/linkedlists/kthToLast/demo}">here</a>.</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

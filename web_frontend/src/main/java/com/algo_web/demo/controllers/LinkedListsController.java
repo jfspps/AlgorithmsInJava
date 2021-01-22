@@ -1,5 +1,6 @@
 package com.algo_web.demo.controllers;
 
+import com.algo_data.linkedLists.FindKthToLast;
 import com.algo_data.linkedLists.LinkedList;
 import com.algo_data.linkedLists.RemoveDuplicates;
 import lombok.extern.slf4j.Slf4j;
@@ -56,5 +57,34 @@ public class LinkedListsController {
         model.addAttribute("processed2", integerLinkedListWithout.printToString());
 
         return "/linkedlists/removeDuplicatesDemo";
+    }
+
+    @GetMapping("/kthToLast")
+    public String getkthToLast(){
+        return "/linkedlists/findKthToLast";
+    }
+
+    @GetMapping("/kthToLast/demo")
+    public String getkthToLastDemo(){
+        return "/linkedlists/findKthToLastDemo";
+    }
+
+    @PostMapping("/kthToLast/demo")
+    public String postkthToLastDemo(String one, String two, String three, String four, String five, String six,
+                                           String seven, String eight, String nine, String kValue, Model model) {
+        Integer[] numberList = {
+                Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three),
+                Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six),
+                Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)
+        };
+
+        LinkedList<Integer> integerLinkedList = new LinkedList<>(numberList);
+        FindKthToLast<Integer> findKthToLast = new FindKthToLast<>(integerLinkedList);
+
+        String processed = integerLinkedList.printToString() + ", k = " + kValue +
+                " is the node with a value of " + findKthToLast.findKthToLast(Integer.parseInt(kValue)).getData();
+
+        model.addAttribute("processed", processed);
+        return "/linkedlists/findKthToLastDemo";
     }
 }
