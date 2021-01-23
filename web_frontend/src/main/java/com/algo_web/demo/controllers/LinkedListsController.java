@@ -1,9 +1,6 @@
 package com.algo_web.demo.controllers;
 
-import com.algo_data.linkedLists.FindKthToLast;
-import com.algo_data.linkedLists.LinkedList;
-import com.algo_data.linkedLists.PartitionAtNodeP;
-import com.algo_data.linkedLists.RemoveDuplicates;
+import com.algo_data.linkedLists.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -120,5 +117,55 @@ public class LinkedListsController {
 
         model.addAttribute("processed", processed);
         return "/linkedlists/partitionAtNodePDemo";
+    }
+
+    @GetMapping("/sumForward")
+    public String getSumForward(){
+        return "/linkedlists/sumForward";
+    }
+
+    @GetMapping("/sumForward/demo")
+    public String getSumForwardDemo(){
+        return "/linkedlists/sumForwardDemo";
+    }
+
+    @PostMapping("/sumForward/demoEven")
+    public String postSumForwardDemoEven(String one, String two, String three, String four, String five, String six,
+                                           Model model) {
+
+        Integer[] numberList = {
+                Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three),
+                Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six)
+        };
+
+        LinkedList<Integer> list = new LinkedList<>(numberList);
+        String originalList = list.printToString();
+
+        SumForward sumForward = new SumForward(list);
+
+        String output = sumForward.sumForward().printToString();
+        model.addAttribute("sumEven", "Original list: " + originalList + "\nSum is: " + output);
+
+        return "/linkedlists/sumForwardDemo";
+    }
+
+    @PostMapping("/sumForward/demoOdd")
+    public String postSumForwardDemoOdd(String one, String two, String three, String four, String five,
+                                     Model model) {
+
+        Integer[] numberList = {
+                Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three),
+                Integer.parseInt(four), Integer.parseInt(five)
+        };
+
+        LinkedList<Integer> list = new LinkedList<>(numberList);
+        String originalList = list.printToString();
+
+        SumForward sumForward = new SumForward(list);
+
+        String output = sumForward.sumForward().printToString();
+        model.addAttribute("sumOdd", "Original list: " + originalList + "\nSum is: " + output);
+
+        return "/linkedlists/sumForwardDemo";
     }
 }

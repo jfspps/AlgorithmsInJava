@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Sum of nodes</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Building a sum expression from nodes in a list</h1>
+
+    <p>
+        This algorithm reads the values of a list, { X, Y, Z }, and builds and then computes the sum of the data values.
+        That is, "XY" + "Z". Numerically, { 1, 2, 3 } is 12 + 3 = 15. The expression is made up of two positive operands and one
+        operator. When the length of the list is odd, the first operand is taken as the longer of the two operands.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        LinkedList&lt;Integer&gt; head;
+
+        public SumForward(LinkedList&lt;Integer&gt; list) {
+            this.head = list;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The algorithm checks the status of the linked list and sets up the references to both operands based on the
+        length of the incoming list. The remaining steps are detailed after the following snippet.
+    </p>
+
+    <ol>
+        <li>Deduce the length of list. If the length is odd then the first operand will be assigned as longer.</li>
+        <li>Set the firstOperand as the head node and advance the secondOperand pointers. Note that (length/2) is truncated.</li>
+        <ul>
+            <li>If odd length, advance secondOperand (length/2 + 1) places forward and build multiplier 10^(length/2)</li>
+            <li>If even length, advance secondOperand (length/2) places and build multiplier 10^(length/2)</li>
+        </ul>
+    </ol>
+
+    <pre>
+        <code class="lang-java">
+        // time complexity is O(n)
+        public LinkedList&lt;Integer&gt; sumForward(){
+            if (head == null){
+                System.out.println("List is empty");
+                return null;
+            }
+
+            if (head.next == null){
+                System.out.println("List contains only one node");
+                return head;
+            }
+
+            // length() is O(n); avoid re-evaluating this and set to a variable
+            int listLength = head.length();
+
+            // integer division returns truncated values
+            int largestNumberOfDigits = listLength - listLength/2;
+            boolean isOddLength = (listLength % 2 != 0);
+
+            System.out.println("Max. no. of digits per operand: " + largestNumberOfDigits);
+
+            LinkedList&lt;Integer&gt; firstOperand = head;
+            LinkedList&lt;Integer&gt; secondOperand = head;
+
+            // advance secondOperand ref
+            while (largestNumberOfDigits &gt; 0){
+                secondOperand = secondOperand.next;
+                largestNumberOfDigits--;
+            }
+
+            // setup multiplier, a value which is "count" orders of magnitude greater than 1
+            int count = listLength/2;
+            int multiplier = 1;
+
+            while (count &gt; 0){
+                multiplier *= 10;
+                count--;
+            }
+
+            if (!isOddLength){
+                multiplier /= 10;
+            }
+
+            // this is O(n)
+            int sum = sumOperands(firstOperand, secondOperand, isOddLength, multiplier);
+
+            // this is O(n)
+            return printIntToList_forward(sum, multiplier);
+        }
+        </code>
+    </pre>
+
+    <p>
+        The sum is evaluated with sumOperands(), which uses the references set and multiplier variable which accounts
+        for the magnitude of the largest operand.
+    </p>
+
+    <ol start="3">
+        <li>Deduce the sum (continue these steps while (multiplier > 0)):</li>
+        <ul>
+            <li>If odd length, (sum = firstOperand.getData() * multiplier); then divide multiplier by ten and advance firstOperand.
+                Then proceed with the following 'even' step.</li>
+            <li>If even length, (sum = firstOperand.getData() * multiplier + secondOperand.getData() * multiplier); divide multiplier
+                by ten and advance both references.</li>
+        </ul>
+    </ol>
+
+    <pre class="lang-java">
+        <code>
+        // assume that the first operand is at most one digit longer than the second operand
+        // time complexity is O(n)
+        private int sumOperands(LinkedList&lt;Integer&gt; firstOperand, LinkedList&lt;Integer&gt; secondOperand,
+                                                 boolean isOddLength, int multiplier) {
+            int sum = 0;
+
+            // handle the larger operand, if applicable
+            if (isOddLength){
+                sum = firstOperand.getData() * multiplier;
+                multiplier /= 10;
+                firstOperand = firstOperand.next;
+            }
+
+            // process both operands at the same time
+            while (multiplier &gt; 0){
+                sum += firstOperand.getData()*multiplier + secondOperand.getData() * multiplier;
+                multiplier /= 10;
+                firstOperand = firstOperand.next;
+                secondOperand = secondOperand.next;
+            }
+
+            return sum;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The integer sum value is then parsed by printIntToList_forward() and returns a new LinkedList.
+    </p>
+
+    <ol start="4">
+        <li>Build a linked list of digits of the sum. Locally, multiplier is referred to as 'divisor'.</li>
+        <ul>
+            <li>Remove any leading zeros which would be generated if multiplier > sum (occurs if the user enters operands with leading zeros)</li>
+            <li>Build a new LinkedList with the first digit as (sum % 10)</li>
+            <li>Remove the leading digit by using (sum = (sum / multiplier) *  multiplier); note, integer division is truncated</li>
+            <li>Reduce multiplier by one order of magnitude with (multiplier / 10)</li>
+            <li>Repeat above steps in the while loop, while (multiplier > 0)</li>
+        </ul>
+    </ol>
+
+    <pre class="lang-java">
+        <code>
+        // print sum in a linked list in forward direction
+        // overall printing is O(n)
+        private LinkedList&lt;Integer&gt; printIntToList_forward(int sum, int divisor) {
+
+            // remove any leading zeros
+            while (sum / divisor == 0){
+                divisor /= 10;
+            }
+
+            LinkedList&lt;Integer&gt; sumList = new LinkedList&lt;&gt;(sum / divisor);
+            int temp = (sum / divisor) * divisor;
+            sum -= temp;
+            divisor /= 10;
+
+            while(divisor &gt; 0){
+                sumList.append(sum / divisor);
+                temp = (sum / divisor) * divisor;
+                sum -= temp;
+                divisor /= 10;
+            }
+
+            return sumList;
+        }
+        </code>
+    </pre>
+
+    <p>Try out sumForward() <a th:href="@{/linkedlists/sumForward/demo}">here</a>.</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

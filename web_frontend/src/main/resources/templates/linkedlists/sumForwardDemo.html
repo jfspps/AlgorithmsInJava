@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Sum of nodes</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Building a sum expression from nodes in a list</h1>
+
+    <h3>Operands with equal number of digits</h3>
+
+    <p>
+        Change the positive integer values and click Process. Note that { 0, 1, 2, 3, 4, 5 } is equivalent to 12 + 345,
+        that is, both operands are always three digits long. Similarly, { 0, 1, 2, 0, 0, 5 } is equivalent to 12 + 5.
+    </p>
+
+    <form th:action="@{/linkedlists/sumForward/demoEven}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <label class="form-check-label" for="head">(HEAD)</label>
+                    <input type="number" id="head" class="form-control" min="0" th:value="1" placeholder="1" name="one">
+                    <input type="number" class="form-control" min="0" th:value="2" placeholder="2" name="two">
+                    <input type="number" class="form-control" min="0" th:value="3" placeholder="3" name="three">
+                    <input type="number" class="form-control" min="0" th:value="4" placeholder="4" name="four">
+                    <input type="number" class="form-control" min="0" th:value="5" placeholder="5" name="five">
+                    <input type="number" id="tail" class="form-control" min="0" th:value="6" placeholder="6" name="six">
+                    <label class="form-check-label" for="tail">(TAIL)</label>
+                </div>
+                <div>
+                    <button class="btn btn-success" type="submit">Process</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--/*@thymesVar id="sumEven" type="java.lang.String"*/-->
+    <div class="row" th:if="${sumEven != null}">
+        <div class="col-9">
+            <div class="form-group">
+                <label for="list">Original list with sum</label>
+                <textarea class="form-control rounded-0" id="list" rows="2" th:text="${sumEven}"
+                          readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+    <h3>Operands with unqeual number of digits</h3>
+
+    <p>
+        Change the positive integer values and click Process. Note that { 1, 1, 2, 3, 4 } is equivalent to 112 + 34,
+        that is, the first operand is longer than the second. Regarding zeros, { 0, 1, 2, 1, 5 } is equivalent to 12 + 15
+        and { 0, 1, 2, 0, 5 } is equivalent to 12 + 5.
+    </p>
+
+    <form th:action="@{/linkedlists/sumForward/demoOdd}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <label class="form-check-label" for="head2">(HEAD)</label>
+                    <input type="number" id="head2" class="form-control" min="0" th:value="1" placeholder="1"
+                           name="one">
+                    <input type="number" class="form-control" min="0" th:value="2" placeholder="2" name="two">
+                    <input type="number" class="form-control" min="0" th:value="3" placeholder="3" name="three">
+                    <input type="number" class="form-control" min="0" th:value="4" placeholder="4" name="four">
+                    <input type="number" id="tail2" class="form-control" min="0" th:value="5" placeholder="5"
+                           name="five">
+                    <label class="form-check-label" for="tail2">(TAIL)</label>
+                </div>
+                <div>
+                    <button class="btn btn-success" type="submit">Process</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--/*@thymesVar id="sumOdd" type="java.lang.String"*/-->
+    <div class="row" th:if="${sumOdd != null}">
+        <div class="col-9">
+            <div class="form-group">
+                <label for="list2">Original list with sum</label>
+                <textarea class="form-control rounded-0" id="list2" rows="2" th:text="${sumOdd}"
+                          readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="form-group">
+                <a class="btn btn-success" th:href="@{/linkedlists/sumForward/demo}">Refresh page</a>
+                <a class="btn btn-success" th:href="@{/linkedlists/sumForward}">Go back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

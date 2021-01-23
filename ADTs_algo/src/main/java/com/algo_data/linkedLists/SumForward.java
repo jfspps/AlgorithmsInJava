@@ -5,18 +5,17 @@ package com.algo_data.linkedLists;
  * 1. Deduce the length of list. If the length is odd then the first operand will be assigned as longer.
  * 2. Advance the firstOperand and secondOperand pointers:
  *   (a) If odd length, advance secondOperand length/2 + 1 places forward and build multiplier 10^(length/2)
- *   (b) If even length, advance secondOperand length/2 places and build multiplier 10^(length/2 - 1)
+ *   (b) If even length, advance secondOperand length/2 places and build multiplier 10^(length/2)
  *   (c) In both cases, set firstOperand to head node
- * 3. Store a copy of the multiplier (this will be needed when building a linked list of digits from the sum)
- * 4. Deduce the sum:
+ * 3. Deduce the sum:
  *   (a) If odd length, sum = firstOperand.getData() * multiplier; then divide multiplier by ten and advance firstOperand.
- *   The proceed with 4(b)
+ *   The proceed with 3(b)
  *   (b) If even length, sum = firstOperand.getData() * multiplier + secondOperand.getData() * multiplier; divide multiplier
  *   by ten and advance both references.
  *   Continue (a) or (b) while multiplier > 0
- * 5. Build a linked list of digits of the sum:
+ * 4. Build a linked list of digits of the sum:
  *   (a) First digit is sum % 10; then take sum / multiplier; then multiplier / 10
- *   (b) Repeat step (a) while multiplier > 0
+ *   (b) Repeat step 4(a) while multiplier > 0
  * */
 
 public class SumForward {
@@ -27,7 +26,7 @@ public class SumForward {
         this.head = list;
     }
 
-    // time complexity is a series of O(n/2) or just O(n)
+    // time complexity is O(n)
     public LinkedList<Integer> sumForward(){
         if (head == null){
             System.out.println("List is empty");
@@ -70,12 +69,15 @@ public class SumForward {
             multiplier /= 10;
         }
 
+        // this is O(n)
         int sum = sumOperands(firstOperand, secondOperand, isOddLength, multiplier);
 
+        // this is O(n)
         return printIntToList_forward(sum, multiplier);
     }
 
     // assume that the first operand is at most one digit longer than the second operand
+    // time complexity is O(n)
     private int sumOperands(LinkedList<Integer> firstOperand, LinkedList<Integer> secondOperand,
                                              boolean isOddLength, int multiplier) {
         int sum = 0;
@@ -99,8 +101,20 @@ public class SumForward {
     }
 
     // print sum in a linked list in forward direction
-    // overall printing is O(n/2)
+    // overall printing is O(n)
     private LinkedList<Integer> printIntToList_forward(int sum, int divisor) {
+
+        if (divisor == 0){
+            return new LinkedList<>(0);
+        }
+
+        // remove any leading zeros
+        while (sum / divisor == 0){
+            divisor /= 10;
+            if (divisor == 0){
+                return new LinkedList<>(0);
+            }
+        }
 
         LinkedList<Integer> sumList = new LinkedList<>(sum / divisor);
         int temp = (sum / divisor) * divisor;
