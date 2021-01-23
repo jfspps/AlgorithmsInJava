@@ -168,4 +168,49 @@ public class LinkedListsController {
 
         return "/linkedlists/sumForwardDemo";
     }
+
+    @GetMapping("/reverseList")
+    public String getReverseList(){
+        return "/linkedlists/reverseList";
+    }
+
+    @GetMapping("/reverseList/demo")
+    public String getReverseListDemo(){
+        return "/linkedlists/reverseListDemo";
+    }
+
+    @PostMapping("/reverseList/demo")
+    public String postReverseListDemo(String one, String two, String three, String four, String five, String six,
+                                      String seven, String eight, String nine, String kValue, Model model) {
+        Integer[] numberList = {
+                Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three),
+                Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six),
+                Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)
+        };
+
+        Integer[] numberList2 = {
+                Integer.parseInt(one), Integer.parseInt(two), Integer.parseInt(three),
+                Integer.parseInt(four), Integer.parseInt(five), Integer.parseInt(six),
+                Integer.parseInt(seven), Integer.parseInt(eight), Integer.parseInt(nine)
+        };
+
+        LinkedList<Integer> integerLinkedList = new LinkedList<>(numberList);
+        String originalList = integerLinkedList.printToString();
+        String reverseList = new ReverseList<>(integerLinkedList).reverseList().printToString();
+
+        LinkedList<Integer> integerLinkedList2 = new LinkedList<>(numberList2);
+        LinkedList<Integer> found = integerLinkedList2.getNode(Integer.parseInt(kValue));
+        String reverseListUpToK = "";
+
+        if (found != null){
+            reverseListUpToK = new ReverseList<>(integerLinkedList2).reverseListUpToK(found).printToString();
+        } else {
+            reverseListUpToK = "Node with value " + kValue + " not found";
+        }
+
+        model.addAttribute("processed", "Original list: " + originalList +
+                "\nReversed list: " + reverseList + "\nReversedUpToK list: " + reverseListUpToK);
+
+        return "/linkedlists/reverseListDemo";
+    }
 }

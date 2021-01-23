@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Reversing a list</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Reversing the order of a singly linked list</h1>
+
+    <p>
+        Change the integer values, choose a value for k and click Process. With reverseUpToK(), the given node will
+        not be included in the reversed list. The first instance of k found in the list (starting from the head node)
+        will form the basis of the stopping point.
+    </p>
+
+    <form th:action="@{/linkedlists/reverseList/demo}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <label class="form-check-label" for="head">(HEAD)</label>
+                    <input type="number" id="head" class="form-control" th:value="1" placeholder="1" name="one">
+                    <input type="number" class="form-control" th:value="2" placeholder="2" name="two">
+                    <input type="number" class="form-control" th:value="3" placeholder="3" name="three">
+                    <input type="number" class="form-control" th:value="4" placeholder="4" name="four">
+                    <input type="number" class="form-control" th:value="5" placeholder="5" name="five">
+                    <input type="number" class="form-control" th:value="6" placeholder="6" name="six">
+                    <input type="number" class="form-control" th:value="7" placeholder="7" name="seven">
+                    <input type="number" class="form-control" th:value="8" placeholder="8" name="eight">
+                    <input type="number" id="tail" class="form-control" th:value="9" placeholder="9" name="nine">
+                    <label class="form-check-label" for="tail">(TAIL)</label>
+                </div>
+                <div>
+                    <label>Value for k
+                        <input type="number" class="form-control" th:value="4" placeholder="4" name="kValue">
+                    </label>
+                    <button class="btn btn-success" type="submit">Process</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--/*@thymesVar id="processed" type="java.lang.String"*/-->
+    <div class="row"th:if="${processed != null}">
+        <div class="col-9" >
+            <div class="form-group">
+                <label for="list">Original list with reversed list and reversed list (up to k)</label>
+                <textarea class="form-control rounded-0" id="list" rows="3" th:text="${processed}"
+                          readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="form-group">
+                <a class="btn btn-success" th:href="@{/linkedlists/reverseList/demo}">Refresh page</a>
+                <a class="btn btn-success" th:href="@{/linkedlists/reverseList}">Go back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

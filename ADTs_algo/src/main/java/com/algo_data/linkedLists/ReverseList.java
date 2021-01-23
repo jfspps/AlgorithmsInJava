@@ -9,7 +9,7 @@ public class ReverseList<T> {
     }
 
     /**
-     * Reverses a list and returns the reversed list. Returns null if list is empty
+     * Reverses a list and returns the reversed list. Returns null if list is empty.
      * */
     public LinkedList<T> reverseList(){
         if (head == null){
@@ -31,23 +31,23 @@ public class ReverseList<T> {
         }
 
         // for lists with at least three nodes
-        LinkedList<T> p = head;
-        LinkedList<T> q = head.next;
-        LinkedList<T> r = head.next.next;
+        LinkedList<T> first = head;
+        LinkedList<T> second = head.next;
+        LinkedList<T> third = head.next.next;
 
-        p.next = null;
-        q.next = p;
-        p = r;
-        r = p.next;
+        first.next = null;
+        second.next = first;
+        first = third;
+        third = first.next;
 
-        while(p.next != null){
-            p.next = q;
-            q = p;
-            p = r;
-            r = p.next;
+        while(first.next != null){
+            first.next = second;
+            second = first;
+            first = third;
+            third = first.next;
         }
-        p.next = q;
-        return p;
+        first.next = second;
+        return first;
     }
 
     /**
@@ -86,22 +86,22 @@ public class ReverseList<T> {
         }
 
         // for lists with at least three nodes
-        LinkedList<T> p = head;
-        LinkedList<T> q = head.next;
-        LinkedList<T> r = head.next.next;
+        LinkedList<T> first = head;
+        LinkedList<T> second = head.next;
+        LinkedList<T> third = head.next.next;
 
-        p.next = null;
-        q.next = p;
-        p = r;
-        r = p.next;
+        first.next = null;
+        second.next = first;
+        first = third;
+        third = first.next;
 
-        while(r != null && p.next != K){
-            p.next = q;
-            q = p;
-            p = r;
-            r = p.next;
+        while(third != null && first.next != K){
+            first.next = second;
+            second = first;
+            first = third;
+            third = first.next;
         }
-        p.next = q;
-        return p;
+        first.next = second;
+        return first;
     }
 }

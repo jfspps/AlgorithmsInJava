@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Reversing a list</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Reversing the order of a singly linked list</h1>
+
+    <p>
+        This algorithm traverses the entire list and adjusts the next property so that the sequence of the nodes is
+        reversed. The option to reverse the order of nodes up to and excluding a given node is also provided.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private LinkedList&lt;T&gt; head;
+
+        public ReverseList(LinkedList&lt;T&gt; list) {
+            this.head = list;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The method reverseList() reverses the entire list. Time complexity is O(n).
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public LinkedList&lt;T&gt; reverseList(){
+            if (head == null){
+                System.out.println("List is empty");
+                return null;
+            }
+
+            if (head.next == null){
+                System.out.println("List contains one node");
+                return head;
+            }
+
+            // swap nodes in a list comprised to just two nodes
+            if (head.next.next == null){
+                head.next.next = head;
+                LinkedList&lt;T&gt; newHead = head.next;
+                head.next = null;
+                return newHead;
+            }
+
+            // for lists with at least three nodes
+            LinkedList&lt;T&gt; first = head;
+            LinkedList&lt;T&gt; second = head.next;
+            LinkedList&lt;T&gt; third = head.next.next;
+
+            first.next = null;
+            second.next = first;
+            first = third;
+            third = first.next;
+
+            while(first.next != null){
+                first.next = second;
+                second = first;
+                first = third;
+                third = first.next;
+            }
+            first.next = second;
+            return first;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The method reverseListUpToK() takes in a given node and, starting from the head node, builds a new linked list
+        in which the nodes up to and excluding the given node are connected in reverse order.
+    </p>
+
+    <pre class="lang-java">
+        <code>
+        public LinkedList&lt;T&gt; reverseListUpToK(LinkedList&lt;T&gt; K){
+            if (head == null){
+                System.out.println("List is empty");
+                return null;
+            }
+
+            if (head.next == null){
+                System.out.println("List contains one node");
+                return null;
+            }
+
+            // handle when K is near the beginning of the list
+            if (K == head){
+                System.out.println("Kth element is head node, nothing to reverse");
+                return null;
+            }
+
+            if (K == head.next){
+                System.out.println("Kth element is 2nd in the list");
+                head.next = null;
+                return head;
+            }
+
+            if (K == head.next.next){
+                System.out.println("Kth element is 3rd in the list");
+                LinkedList&lt;T&gt; q = head.next;
+                q.next = head;
+                head.next = null;
+                return q;
+            }
+
+            // for lists with at least three nodes
+            LinkedList&lt;T&gt; first = head;
+            LinkedList&lt;T&gt; second = head.next;
+            LinkedList&lt;T&gt; third = head.next.next;
+
+            first.next = null;
+            second.next = first;
+            first = third;
+            third = first.next;
+
+            while(third != null && first.next != K){
+                first.next = second;
+                second = first;
+                first = third;
+                third = first.next;
+            }
+            first.next = second;
+            return first;
+        }
+        </code>
+    </pre>
+
+    <p>Try out both methods <a th:href="@{/linkedlists/reverseList/demo}">here</a>.</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
