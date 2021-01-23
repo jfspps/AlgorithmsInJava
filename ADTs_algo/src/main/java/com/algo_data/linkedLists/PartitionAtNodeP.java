@@ -2,7 +2,7 @@ package com.algo_data.linkedLists;
 
 public class PartitionAtNodeP {
 
-    LinkedList<Integer> head;
+    private LinkedList<Integer> head;
 
     public PartitionAtNodeP(LinkedList<Integer> list) {
         this.head = list;

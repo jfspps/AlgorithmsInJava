@@ -20,7 +20,7 @@ package com.algo_data.linkedLists;
 
 public class SumForward {
 
-    LinkedList<Integer> head;
+    private LinkedList<Integer> head;
 
     public SumForward(LinkedList<Integer> list) {
         this.head = list;

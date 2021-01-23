@@ -2,7 +2,7 @@ package com.algo_data.linkedLists;
 
 public class FindKthToLast<T> {
 
-    LinkedList<T> list;
+    private final LinkedList<T> list;
 
     public FindKthToLast(LinkedList<T> list) {
         this.list = list;

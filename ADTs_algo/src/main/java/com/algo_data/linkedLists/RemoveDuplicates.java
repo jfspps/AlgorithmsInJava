@@ -2,7 +2,7 @@ package com.algo_data.linkedLists;
 
 public class RemoveDuplicates<T> {
 
-    LinkedList<Integer> linkedList;
+    private LinkedList<Integer> linkedList;
 
     public RemoveDuplicates(LinkedList<Integer> list) {
         linkedList = list;
