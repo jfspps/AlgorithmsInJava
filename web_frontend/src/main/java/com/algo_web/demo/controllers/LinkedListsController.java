@@ -238,4 +238,9 @@ public class LinkedListsController {
         }
         return "/linkedlists/palindromeDemo";
     }
+
+    @GetMapping("/listsIntersect")
+    public String getListsIntersect(){
+        return "/linkedlists/ListsIntersect";
+    }
 }

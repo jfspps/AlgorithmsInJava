@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Intersecting lists</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Determining if two lists intersect</h1>
+
+    <p>
+        Intersecting lists for a Y-shaped chain, whereby both have the same tail node. The lengths of each list can vary.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private LinkedList&lt;&gt; head;
+
+        public ListsIntersect(LinkedList&lt;&gt; head) {
+            this.head = head;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The first method, listsIntersect(), determines if both lists have the same tail node.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        // this is O(n + m)
+        public boolean listsIntersect(LinkedList&lt;&gt; list) {
+            LinkedList&lt;&gt; thisTail = this.head, listTail = list;
+
+            while (thisTail.next != null) {
+                thisTail = thisTail.next;
+            }
+
+            while (listTail.next != null) {
+                listTail = listTail.next;
+            }
+
+            if (thisTail == listTail) {
+                System.out.println("Given lists intersect");
+                return true;
+            } else {
+                System.out.println("Given lists do not intersect");
+                return false;
+            }
+        }
+        </code>
+    </pre>
+
+    <p>
+        Once it has been established that the lists intersect, one can call getIntersection() to retrieve a reference
+        to the intersection point.
+    </p>
+
+    <pre class="lang-java">
+        <code>
+        // overall O(n + m)
+        public LinkedList&lt;&gt; getIntersection(LinkedList&lt;&gt; list) {
+            if (!this.listsIntersect(list)) {
+                return null;
+            }
+
+            int difference = 0;
+            LinkedList&lt;&gt; longestList;
+            LinkedList&lt;&gt; shortestList;
+
+            if (this.head.length() > list.length()) {
+                difference = this.head.length() - list.length();
+                longestList = this.head;
+                shortestList = list;
+            } else {
+                difference = list.length() - this.head.length();
+                longestList = list;
+                shortestList = this.head;
+            }
+
+            // if lists are of equal length then move references in both lists at the same time
+            // if lists are of unequal length then advance by the difference in the longer list and then at the same time
+
+            if (difference == 0) {
+                while (this.head != list) {
+                    this.head = this.head.next;
+                    list = list.next;
+                }
+                return this.head;
+            }
+
+            while (difference &gt; 0) {
+                longestList = longestList.next;
+                difference--;
+            }
+            while (longestList != shortestList) {
+                longestList = longestList.next;
+                shortestList = shortestList.next;
+            }
+            return longestList;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Unit tests are provided with the project to demonstrate the function of ListsIntersect.
+    </p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

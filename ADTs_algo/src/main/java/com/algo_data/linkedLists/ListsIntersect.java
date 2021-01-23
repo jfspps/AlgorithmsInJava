@@ -2,7 +2,7 @@ package com.algo_data.linkedLists;
 
 public class ListsIntersect<T> {
 
-    LinkedList<T> head;
+    private LinkedList<T> head;
 
     public ListsIntersect(LinkedList<T> head) {
         this.head = head;
