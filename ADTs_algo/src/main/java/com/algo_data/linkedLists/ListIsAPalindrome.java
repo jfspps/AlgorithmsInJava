@@ -9,34 +9,36 @@ public class ListIsAPalindrome {
     }
 
     // time complexity is O(n)
-    public boolean isAPalindrome(int length){
-        LinkedList<Character> slow = head, fast = head;
+    // checks if the list is a palindrome, as { x, y, z, z, y, x } or { x, y, z, y, x }
+    public boolean isAPalindrome(){
+        LinkedList<Character> halfwayMark = head, fast = head;
+        int length = this.head.length();
 
         // this part is O(n/2) or O(n)
         while (fast.next != null && fast.next.next != null){
             fast = fast.next.next;
-            slow = slow.next;
+            halfwayMark = halfwayMark.next;
         }
 
         ReverseList<Character> reverseList = new ReverseList<>(this.head);
         LinkedList<Character> reversedLeftHalf;
 
-        // if the list is odd in length, partition first then advance slow; otherwise advance slow then partition
+        // if the list is odd in length, partition first then advance halfwayMark; otherwise advance halfwayMark then partition
         if (length%2 != 0){
-            reversedLeftHalf = reverseList.reverseListUpToK(slow);
-            slow = slow.next;
+            reversedLeftHalf = reverseList.reverseListUpToK(halfwayMark);
+            halfwayMark = halfwayMark.next;
         } else {
-            slow = slow.next;
-            reversedLeftHalf = reverseList.reverseListUpToK(slow);
+            halfwayMark = halfwayMark.next;
+            reversedLeftHalf = reverseList.reverseListUpToK(halfwayMark);
         }
 
         // this final part is O(n/2) or O(n)
-        while (slow != null){
-            if (reversedLeftHalf.getData() != slow.getData()){
+        while (halfwayMark != null){
+            if (reversedLeftHalf.getData() != halfwayMark.getData()){
                 System.out.println("Given list is not a palindrome");
                 return false;
             }
-            slow = slow.next;
+            halfwayMark = halfwayMark.next;
             reversedLeftHalf = reversedLeftHalf.next;
         }
 
