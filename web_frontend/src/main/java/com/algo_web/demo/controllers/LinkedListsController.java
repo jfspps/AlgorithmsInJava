@@ -213,4 +213,29 @@ public class LinkedListsController {
 
         return "/linkedlists/reverseListDemo";
     }
+
+    @GetMapping("/palindrome")
+    public String getPalindromeList(){
+        return "/linkedlists/palindrome";
+    }
+
+    @GetMapping("/palindrome/demo")
+    public String getPalindromeListDemo(){
+        return "/linkedlists/palindromeDemo";
+    }
+
+    @PostMapping("/palindrome/demo")
+    public String postPalindromeList(String input, Model model){
+        if (input.isBlank()){
+            model.addAttribute("output", "Empty string passed");
+        } else {
+            Character[] array = new Character[input.length()];
+            for (int i = 0; i < input.length(); i++){
+                array[i] = input.charAt(i);
+            }
+            ListIsAPalindrome listIsAPalindrome = new ListIsAPalindrome(new LinkedList<>(array));
+            model.addAttribute("output", input + " is a palindrome: " + listIsAPalindrome.isAPalindrome());
+        }
+        return "/linkedlists/palindromeDemo";
+    }
 }

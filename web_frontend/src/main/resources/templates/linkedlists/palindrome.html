@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Palindrome lists</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Deducing if a linked list is a palindrome</h1>
+
+    <p>
+        A palindrome, specifically, is a sequence of characters such that the order is the same when read forwards or
+        backwards. That is, they are of the form "abcdeedcba" or "abcdedcba".
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private LinkedList&lt;Character&gt; head;
+
+        public ListIsAPalindrome(LinkedList&lt;Character&gt; head) {
+            this.head = head;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The algorithm starts by advancing two pointers such that a slower moving reference, halfwayMark, finds the
+        central node. A reversed copy of the left-hand sided of the list is built and then compared to the right-hand
+        side.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        // time complexity is O(n)
+        // checks if the list is a palindrome, as { x, y, z, z, y, x } or { x, y, z, y, x }
+        public boolean isAPalindrome(){
+            LinkedList&lt;Character&gt; halfwayMark = head, fast = head;
+            int length = this.head.length();
+
+            // this part is O(n/2) or O(n)
+            while (fast.next != null && fast.next.next != null){
+                fast = fast.next.next;
+                halfwayMark = halfwayMark.next;
+            }
+
+            ReverseList&lt;Character&gt; reverseList = new ReverseList&lt;&gt;(this.head);
+            LinkedList&lt;Character&gt; reversedLeftHalf;
+
+            // if the list is odd in length, partition first then advance halfwayMark; otherwise advance halfwayMark then partition
+            if (length%2 != 0){
+                reversedLeftHalf = reverseList.reverseListUpToK(halfwayMark);
+                halfwayMark = halfwayMark.next;
+            } else {
+                halfwayMark = halfwayMark.next;
+                reversedLeftHalf = reverseList.reverseListUpToK(halfwayMark);
+            }
+
+            // this final part is O(n/2) or O(n)
+            while (halfwayMark != null){
+                if (reversedLeftHalf.getData() != halfwayMark.getData()){
+                    System.out.println("Given list is not a palindrome");
+                    return false;
+                }
+                halfwayMark = halfwayMark.next;
+                reversedLeftHalf = reversedLeftHalf.next;
+            }
+
+            System.out.println("Given list is a palindrome");
+            return true;
+        }
+        </code>
+    </pre>
+
+    <p>Try out isAPalindrome() <a th:href="@{/linkedlists/palindrome/demo}">here</a>.</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Palindrome lists</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Deducing if a linked list is a palindrome</h1>
+
+    <p>
+        To determine if a string is a palindrome or not, enter it in the box below and click Process.
+    </p>
+
+    <form th:action="@{/linkedlists/palindrome/demo}" method="post" class="form-signin">
+        <div class="row">
+            <div class="col-9">
+                <div class="input-group mb-3">
+                    <label class="form-check-label" for="head">Input string: </label>
+                    <input type="text" id="head" class="form-control" placeholder="Enter a string here" name="input">
+                </div>
+                <div>
+                    <button class="btn btn-success" type="submit">Process</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--/*@thymesVar id="output" type="java.lang.String"*/-->
+    <div class="row"th:if="${output != null}">
+        <div class="col-9" >
+            <div class="form-group">
+                <textarea class="form-control rounded-0" rows="1" th:text="${output}" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="form-group">
+                <a class="btn btn-success" th:href="@{/linkedlists/palindrome/demo}">Refresh page</a>
+                <a class="btn btn-success" th:href="@{/linkedlists/palindrome}">Go back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
