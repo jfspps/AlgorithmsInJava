@@ -243,4 +243,9 @@ public class LinkedListsController {
     public String getListsIntersect(){
         return "/linkedlists/ListsIntersect";
     }
+
+    @GetMapping("/listIsLooped")
+    public String getListIsLooped(){
+        return "/linkedlists/ListIsLooped";
+    }
 }

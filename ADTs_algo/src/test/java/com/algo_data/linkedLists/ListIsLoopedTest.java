@@ -13,14 +13,23 @@ class ListIsLoopedTest {
 
     @BeforeEach
     void setUp() {
-        list = new LinkedList<>(new Character[]{ 'a', 'a', 'a', 'd', 'c', 'c', 'c', 'c', 'c', 'c', 'X'});
+        list = new LinkedList<>(new Character[]{ 'a', 'A', 'A', 'd', 'c', 'c', 'c', 'c', 'c', 'c', 'X'});
     }
 
     @Test
     void isLooped() {
+        // head node is not part of the loop
         list.getNode('X').next = list.getNode('d');
         characterListIsLooped = new ListIsLooped<>(list);
         assertEquals('d', characterListIsLooped.getIntersection().getData());
+    }
+
+    @Test
+    void isLooped2() {
+        // head node is part of the loop
+        list.getNode('X').next = list.getNode('a');
+        characterListIsLooped = new ListIsLooped<>(list);
+        assertEquals('a', characterListIsLooped.getIntersection().getData());
     }
 
     @Test

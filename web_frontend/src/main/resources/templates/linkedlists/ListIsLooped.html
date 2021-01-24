@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Looping lists</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Determining if a singly linked list is looped</h1>
+
+    <p>
+        This algorithm sends three references along the list to ascertain if it is looped and to return a reference to
+        the first node (starting from the head node) where the loop begins.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private LinkedList&lt;T&gt; head;
+
+        public ListIsLooped(LinkedList&lt;T&gt; head) {
+            this.head = head;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The approach begins by sending two pointers, "slow" and "fast", along the list until they meet somewhere in the
+        loop. Pointer "fast" is held in place and acts as a reference point for pointer "slow" later in the execution.
+        A third reference "outsideLoop" then starts from the head node and traverses the list until it reaches "slow"
+        (which cycles through the loop once, stopping when slow == fast).
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        // time complexity is O(n + nm) or simply O(nm), where n is the loop size and m the mth Node where the loop begins
+        public LinkedList&lt;T&gt; getIntersection(){
+            // slow and fast pointers to navigate until fast.next is null
+
+            if (head == null){
+                System.out.println("List is empty");
+                return null;
+            }
+
+            if (head.next == null){
+                System.out.println("List built with one node only and is not looped");
+                return null;
+            }
+
+            LinkedList&lt;T&gt; slow = head;
+            LinkedList&lt;T&gt; fast = head.next;
+
+            // potentially O(n) at worst
+            while (slow != fast){
+                if (fast.next == null || fast.next.next == null){
+                    System.out.println("List is not looped");
+                    return null;
+                }
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            // slow == fast, both would be somewhere in the loop by now
+            // move "slow" ahead one place and keep "fast" in place as a permanent marker within the loop
+            slow = slow.next;
+
+            LinkedList&lt;T&gt; outsideLoop = head;
+
+            // move "outsideLoop" while looping "slow" ("fast" stops "slow" looping ad infinitum)
+            // this would be O(nm), where n is the loop size and m the mth Node where the loop begins
+            while (outsideLoop != fast){
+                while (slow != fast){
+                    if (slow == outsideLoop){
+                        System.out.println("Loop starts at value: " + outsideLoop.getData());
+                        return outsideLoop;
+                    }
+                    slow = slow.next;
+                }
+                outsideLoop = outsideLoop.next;
+
+                if (outsideLoop == fast){
+                    break;
+                }
+                slow = slow.next;
+            }
+
+            // when outside loop found "fast" before "slow"
+            System.out.println("Loop starts at value: " + outsideLoop.getData());
+            return outsideLoop;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Passing unit tests are provided below.
+    </p>
+
+    <pre class="lang-java">
+        <code>
+        LinkedList&lt;Character&gt; list;
+        ListIsLooped&lt;Character&gt; characterListIsLooped;
+
+        @BeforeEach
+        void setUp() {
+            list = new LinkedList&lt;T&gt;(new Character[]{ 'a', 'A', 'A', 'd', 'c', 'c', 'c', 'c', 'c', 'c', 'X'});
+        }
+
+        @Test
+        void isLooped() {
+            // head node is not part of the loop
+            list.getNode('X').next = list.getNode('d');
+            characterListIsLooped = new ListIsLooped&lt;T&gt;(list);
+            assertEquals('d', characterListIsLooped.getIntersection().getData());
+        }
+
+        @Test
+        void isLooped2() {
+            // head node is part of the loop
+            list.getNode('X').next = list.getNode('a');
+            characterListIsLooped = new ListIsLooped&lt;T&gt;(list);
+            assertEquals('a', characterListIsLooped.getIntersection().getData());
+        }
+
+        @Test
+        void isNotLooped(){
+            characterListIsLooped = new ListIsLooped&lt;T&gt;(list);
+            assertNull(characterListIsLooped.getIntersection());
+        }
+        </code>
+    </pre>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

@@ -105,8 +105,55 @@
     </pre>
 
     <p>
-        Unit tests are provided with the project to demonstrate the function of ListsIntersect.
+        Passing unit tests are provided below.
     </p>
+
+    <pre class="lang-java">
+        <code>
+        LinkedList&lt;Integer&gt; integerLinkedList1;
+        LinkedList&lt;Integer&gt; integerLinkedList2;
+
+        LinkedList&lt;Integer&gt; equalLengthList;
+        LinkedList&lt;Integer&gt; unequalLengthList;
+
+        ListsIntersect&lt;Integer&gt; listsIntersect;
+
+        @BeforeEach
+        void setUp() {
+            integerLinkedList1 = new LinkedList&lt;&gt;(new Integer[]{1, 2, 3, 4, 5, 6});
+            integerLinkedList2 = new LinkedList&lt;&gt;(new Integer[]{10, 11});
+
+            equalLengthList = integerLinkedList1.getNode(3);
+            unequalLengthList = integerLinkedList1.getNode(5);
+        }
+
+        @Test
+        void listsIntersect_Even() {
+            // join both at list1's node(3)
+            integerLinkedList2.append(equalLengthList);
+
+            listsIntersect = new ListsIntersect&lt;&gt;(integerLinkedList1);
+            assertTrue(listsIntersect.listsIntersect(integerLinkedList2));
+            assertEquals(3, listsIntersect.getIntersection(integerLinkedList2).getData());
+        }
+
+        @Test
+        void listsIntersect_Odd() {
+            // join both at list1's node(5)
+            integerLinkedList2.append(unequalLengthList);
+
+            listsIntersect = new ListsIntersect&lt;&gt;(integerLinkedList1);
+            assertTrue(listsIntersect.listsIntersect(integerLinkedList2));
+            assertEquals(5, listsIntersect.getIntersection(integerLinkedList2).getData());
+        }
+
+        @Test
+        void listsDoNotIntersect() {
+            listsIntersect = new ListsIntersect&lt;&gt;(integerLinkedList1);
+            assertFalse(listsIntersect.listsIntersect(integerLinkedList2));
+        }
+        </code>
+    </pre>
 </div>
 
 <footer th:replace="fragments/footer :: footer">
