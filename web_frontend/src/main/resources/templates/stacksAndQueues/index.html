@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Stacks and queues</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Stacks and queues</h1>
+
+    <p>
+        The sub-topics covered are:
+    </p>
+
+    <ul>
+        <li>Custom implementation of a stack</li>
+        <li>Custom implementation of a queue</li>
+        <li>Implementing three stacks with a single array</li>
+        <li>Implementation of a stack with an additional minimum() method</li>
+        <li>Set of stacks. Each stack has a maximum capacity and when a stack is full, another vacant stack is populated.
+        Includes a popAt() method which returns performs pop() on a specific stack.</li>
+        <li>Implementing a queue using two stacks</li>
+        <li>Building a stack which stores the smallest element at the top of the stack</li>
+        <li>Animal shelter. Implementing two queues such that dequeue() returns an animal based on shelter time or type
+        (dog or cat) only.</li>
+    </ul>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
