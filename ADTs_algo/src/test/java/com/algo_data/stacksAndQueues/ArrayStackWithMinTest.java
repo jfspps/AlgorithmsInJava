@@ -25,7 +25,7 @@ class ArrayStackWithMinTest {
 
     @Test
     void push() {
-        assertEquals(12, stackWithMin.push(12));
+        assertEquals(1, stackWithMin.push(12));
         assertEquals(1, stackWithMin.getMinimum());
     }
 

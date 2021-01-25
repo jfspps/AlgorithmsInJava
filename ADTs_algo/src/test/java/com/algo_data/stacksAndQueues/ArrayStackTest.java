@@ -25,7 +25,7 @@ class ArrayStackTest {
     @Test
     void pushToFullArray() {
         String temp = "tempElement";
-        assertNull(stringArrayStack.push(temp));
+        assertEquals(-1, stringArrayStack.push(temp));
     }
 
     @Test

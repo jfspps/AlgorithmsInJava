@@ -24,16 +24,17 @@ public class ArrayStack<T> {
     /**
      * Pushes a new element or node (the data of which can be null) to the top of the stack.
      * New nodes' data can be null hence pop() and peek() return null if the data is null and throw exceptions when
-     * the given stack is empty. ArrayStack is static-array based hence push() returns null of the array is full.
+     * the given stack is empty. ArrayStack is static-array based hence push() returns -1 of the array is full and 1 if
+     * push was accomplished.
      * */
-    public T push(T data) {
+    public int push(T data) {
         // check if stack is already full (unlike linked lists)
         if (this.topIndex == this.stackSize - 1){
             System.out.println("Stack is full, cannot push to stack");
-            return null;
+            return -1;
         }
         this.stackArray[++this.topIndex] = data;
-        return data;
+        return 1;
     }
 
     /**

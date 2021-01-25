@@ -28,9 +28,10 @@ public class ArrayStackWithMin extends ArrayStack<Integer>{
     }
 
     /**
-     * Pushed the new value to the stack and updates the stackOfMinima if the pushed value is the new minimum
+     * Pushed the new value to the stack and updates the stackOfMinima if the pushed value is the new minimum.
+     * Returns -1 if stack is full and 1 is push succeeded.
      * */
-    public Integer push(Integer value){
+    public int push(Integer value){
         if (value <= getMinimum()){
             // update stackOfMinima with the new min
             stackOfMinima.push(value);
