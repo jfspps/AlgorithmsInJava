@@ -14,54 +14,64 @@ public class Queue<T> {
         }
     }
 
-    // analogous in role to Stack's top property
-    private QueueNode<T> first;
-    private QueueNode<T> last;
+    // references to the first and last node or element in the queue
+    private QueueNode<T> front;
+    private QueueNode<T> back;
 
-    // adds a node
+    /**
+     * Adds a new node or element to the back of the queue. New node's data can be null.
+     * */
     public void enqueue(T item){
         QueueNode<T> newNode = new QueueNode<>(item);
 
-        // add new item to the back of the queue
-        if (last != null){
-            last.next = newNode;
+        // if queue is not empty then update last property
+        if (back != null){
+            back.next = newNode;
         }
 
-        last = newNode;
+        back = newNode;
 
         // account for a new queue by setting first to newNode
-        if (first == null) {
-            first = last;
+        if (front == null) {
+            front = back;
         }
     }
 
-    // remove a node
+    /**
+     * Removes and returns the node's data (which can be null) at the front of the queue.
+     * Throws a NoSuchElementException if the queue is empty.
+     * */
     public T dequeue(){
-        if (first == null){
+        if (front == null){
             throw new NoSuchElementException();
         }
 
         //get the first item's data and then update the queue
-        T data = first.data;
-        first = first.next;
+        T data = front.data;
+        front = front.next;
 
         // if the queue is empty, then update last
-        if (first == null){
-            last = null;
+        if (front == null){
+            back = null;
         }
         return data;
     }
 
-    // view the first node
+    /**
+     * Returns a copy of the the node's data (which can be null) at the front of the queue.
+     * Throws a NoSuchElementException if the queue is empty.
+     * */
     public T peek(){
-        if (first == null){
+        if (front == null){
             throw new NoSuchElementException();
         }
-        return first.data;
+        return front.data;
     }
 
-    // check if queue is empty or not
+    /**
+     * Returns true if the queue is empty and false if not
+     * */
     public boolean isEmpty(){
-        return first == null;
+        return front == null;
     }
 }

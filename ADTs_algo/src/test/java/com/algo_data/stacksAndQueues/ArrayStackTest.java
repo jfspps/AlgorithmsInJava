@@ -23,6 +23,12 @@ class ArrayStackTest {
     }
 
     @Test
+    void pushToFullArray() {
+        String temp = "tempElement";
+        assertNull(stringArrayStack.push(temp));
+    }
+
+    @Test
     void pop() {
         assertEquals(second, stringArrayStack.pop());
         assertEquals(first, stringArrayStack.pop());
@@ -32,15 +38,18 @@ class ArrayStackTest {
     }
 
     @Test
-    void push() {
-        String temp = "tempElement";
-        assertNull(stringArrayStack.push(temp));
-    }
-
-    @Test
     void peek() {
         assertEquals(second, stringArrayStack.peek());
         assertNotEquals(first, stringArrayStack.peek());
+    }
+
+    @Test
+    void peekAtEmptyStack() {
+        assertEquals(second, stringArrayStack.pop());
+        assertEquals(first, stringArrayStack.pop());
+        assertThrows(EmptyStackException.class, () -> {
+            stringArrayStack.peek();
+        });
     }
 
     @Test

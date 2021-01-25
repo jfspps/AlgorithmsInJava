@@ -38,6 +38,15 @@ class QueueTest {
     }
 
     @Test
+    void peekAtEmptyQueue() {
+        assertEquals(first, stringQueue.dequeue());
+        assertEquals(second, stringQueue.dequeue());
+        assertThrows(NoSuchElementException.class, () -> {
+            stringQueue.peek();
+        });
+    }
+
+    @Test
     void isEmpty() {
         assertFalse(stringQueue.isEmpty());
         stringQueue.dequeue();

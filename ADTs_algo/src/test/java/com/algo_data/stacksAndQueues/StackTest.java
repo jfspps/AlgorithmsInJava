@@ -18,6 +18,7 @@ class StackTest {
         stringStack = new Stack<>();
         first = "first";
         second = "second";
+
         stringStack.push(first);
         stringStack.push(second);
     }
@@ -29,13 +30,6 @@ class StackTest {
         assertThrows(EmptyStackException.class, () -> {
             stringStack.pop();
         });
-    }
-
-    @Test
-    void push() {
-        String temp = "tempElement";
-        stringStack.push(temp);
-        assertEquals(temp, stringStack.pop());
     }
 
     @Test
