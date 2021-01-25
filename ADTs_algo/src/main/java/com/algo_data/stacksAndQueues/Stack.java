@@ -57,6 +57,6 @@ public class Stack<T> {
      * Returns true if the stack is empty and false if not
      * */
     public boolean isEmpty(){
-        return top == null;
+        return this.top == null;
     }
 }
