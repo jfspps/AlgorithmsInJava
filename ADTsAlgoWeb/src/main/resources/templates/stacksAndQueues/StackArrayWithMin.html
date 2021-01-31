@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Stack based array with getMinimum()</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Implementing an array based stack with getMinimum()</h1>
+
+    <p>
+        This class extends <a th:href="@{/stacksAndQueues/arrayStack}">ArrayStack</a>, an array based implementation
+        of a stack, with the addition of a getMinimum() function which returns the value of the node or element with the
+        smallest value.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        ArrayStack&lt;Integer&gt; stackOfMinima;
+
+        public ArrayStackWithMin(int stackSize){
+            super(stackSize);
+            stackOfMinima = new ArrayStack&lt;&gt;(stackSize);
+        }
+        </code>
+    </pre>
+
+    <p>
+        The minimum value is monitored by storing the last known minimum in a separate stack, stackOfMinima. Each time
+        the minimum value changes (i.e. a new element is less than current minimum) then its value is saved in the
+        stackOfMinima. Each time an element is removed from the stack, the minimum value is updated as necessary.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public int getMinimum(){
+            if (stackOfMinima.isEmpty()){
+                return Integer.MAX_VALUE;
+            }
+
+            //retrieve the current minimum of ArrayStack from its complementary stackOfMinima
+            return stackOfMinima.peek();
+        }
+
+        public int push(Integer value){
+            if (value &lt;= getMinimum()){
+                // update stackOfMinima with the new min
+                stackOfMinima.push(value);
+            }
+
+            // then push value to ArrayStack
+            return super.push(value);
+        }
+
+        public Integer pop(){
+            Integer arrayStackData = super.pop();
+
+            // update stackOfMinima if required
+            if (arrayStackData == getMinimum()){
+                stackOfMinima.pop();
+            }
+
+            return arrayStackData;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The passing unit tests are summarised below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        class ArrayStackWithMinTest {
+
+            Integer[] integers = {5, 4, 6, 1, 5, 3, 8, 9, 10, 2};
+            ArrayStackWithMin stackWithMin;
+
+            @BeforeEach
+            void setUp() {
+                stackWithMin = new ArrayStackWithMin(integers.length + 3);
+                for (Integer data : integers) {
+                    stackWithMin.push(data);
+                }
+            }
+
+            @Test
+            void getMinimum() {
+                assertEquals(1, stackWithMin.getMinimum());
+            }
+
+            @Test
+            void push() {
+                assertEquals(1, stackWithMin.push(12));
+                assertEquals(1, stackWithMin.getMinimum());
+            }
+
+            @Test
+            void pop() {
+                assertEquals(2, stackWithMin.pop());
+                assertEquals(1, stackWithMin.getMinimum());
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

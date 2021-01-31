@@ -5,8 +5,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>ADTs_algo</module>
-        <module>web_frontend</module>
+        <module>ADTsAlgoServices</module>
+        <module>ADTsAlgoWeb</module>
     </modules>
 
     <parent>

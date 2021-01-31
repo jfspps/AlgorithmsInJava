@@ -8,12 +8,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>adt_algo_web</artifactId>
+    <artifactId>ADTsAlgoWeb</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.algo</groupId>
-            <artifactId>adt_algo_code</artifactId>
+            <artifactId>ADTsAlgoServices</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

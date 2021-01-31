@@ -34,4 +34,7 @@ public class StacksQueuesController {
     String getArrayOfThreeStacks() {
         return "/stacksAndQueues/ArrayOfThreeStacks";
     }
+
+    @GetMapping("/arrayStackWithMin")
+    String getArrayOfStacks() { return "/stacksAndQueues/StackArrayWithMin"; }
 }
