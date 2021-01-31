@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SmallIntAtTopStackTest {
 
-    SmallIntAtTopStack stack;
+    SmallIntAtTopListStack stack;
 
     @BeforeEach
     void setUp() {
-        stack = new SmallIntAtTopStack();
+        stack = new SmallIntAtTopListStack();
     }
 
     @Test

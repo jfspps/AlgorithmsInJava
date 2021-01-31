@@ -15,8 +15,6 @@ public class ArrayStack<T> {
     public ArrayStack(int stackSize){
         //care needed to keep this execution away from client code until T is known
         this.stackSize = stackSize;
-
-        //remember this for ArrayList et. al. ADT implementations!
         this.stackArray = (T[]) new Object[this.stackSize];
         this.topIndex = -1;
     }

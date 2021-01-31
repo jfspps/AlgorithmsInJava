@@ -7,33 +7,33 @@ package com.algo_data.stacksAndQueues;
 public class QueueAsStacks<T> {
 
     // use the linked list implementation of a stack (stackSize not required on startup)
-    private final Stack<T> stackIn;
-    private final Stack<T> stackOut;
+    private final ListStack<T> listStackIn;
+    private final ListStack<T> listStackOut;
 
     public QueueAsStacks() {
-        stackIn = new Stack<>();
-        stackOut = new Stack<>();
+        listStackIn = new ListStack<>();
+        listStackOut = new ListStack<>();
     }
 
     // time complexity is O(n), where n is the current size of the Queue
     public void enqueue(T data){
         // make sure stackOut items are transferred to stackIn before adding more to stackIn
-        while (!stackOut.isEmpty()){
-            stackIn.push(stackOut.pop());
+        while (!listStackOut.isEmpty()){
+            listStackIn.push(listStackOut.pop());
         }
 
-        stackIn.push(data);
+        listStackIn.push(data);
     }
 
     // time complexity is also O(n), where n is the current size of the Queue
     public T dequeue(){
         // make sure stackIn items are transferred to stackOut before removing from stackOut
-        while (!stackIn.isEmpty()){
-            stackOut.push(stackIn.pop());
+        while (!listStackIn.isEmpty()){
+            listStackOut.push(listStackIn.pop());
         }
 
-        if (!stackOut.isEmpty()){
-            return stackOut.pop();
+        if (!listStackOut.isEmpty()){
+            return listStackOut.pop();
         }
 
         System.out.println("Queue is currently empty");
@@ -42,12 +42,12 @@ public class QueueAsStacks<T> {
 
     public T peek(){
         // follows the same logic as dequeue()
-        while (!stackIn.isEmpty()){
-            stackOut.push(stackIn.pop());
+        while (!listStackIn.isEmpty()){
+            listStackOut.push(listStackIn.pop());
         }
 
-        if (!stackOut.isEmpty()){
-            return stackOut.peek();
+        if (!listStackOut.isEmpty()){
+            return listStackOut.peek();
         }
 
         System.out.println("Queue is currently empty");
@@ -55,6 +55,6 @@ public class QueueAsStacks<T> {
     }
 
     public boolean isEmpty(){
-        return stackIn.isEmpty() && stackOut.isEmpty();
+        return listStackIn.isEmpty() && listStackOut.isEmpty();
     }
 }

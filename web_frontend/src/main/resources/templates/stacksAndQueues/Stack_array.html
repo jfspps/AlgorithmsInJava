@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Stack via an array</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Implementing a stack via an array</h1>
+
+    <p>This demonstrates the implementation of a stack ADT via Java's primitive array.</p>
+
+    <pre>
+        <code class="lang-java">
+        private final int stackSize;
+        private final T[] stackArray;
+        private int topIndex;
+
+        public ArrayStack(int stackSize){
+            this.stackSize = stackSize;
+
+            this.stackArray = (T[]) new Object[this.stackSize];
+            this.topIndex = -1;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Methods for pop(), push(), peek() and isEmpty() are given below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public int push(T data) {
+            // check if stack is already full (unlike linked lists)
+            if (this.topIndex == this.stackSize - 1){
+                System.out.println("Stack is full, cannot push to stack");
+                return -1;
+            }
+            this.stackArray[++this.topIndex] = data;
+            return 1;
+        }
+
+        public T pop(){
+            if (topIndex == -1){
+                System.out.println("Stack is empty");
+                throw new EmptyStackException();
+            }
+            return stackArray[topIndex--];
+        }
+
+        public T peek(){
+            if (topIndex == -1){
+                System.out.println("Stack is already empty");
+                throw new EmptyStackException();
+            }
+            return stackArray[topIndex];
+        }
+
+        public boolean isEmpty(){
+            return topIndex < 0;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Passing unit tests are given below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        class ArrayStackTest {
+
+            ArrayStack&lt;String&gt; stringArrayStack;
+            String first;
+            String second;
+
+            @BeforeEach
+            void setUp() {
+                stringArrayStack = new ArrayStack&lt;&gt;(2);
+                first = "first";
+                second = "second";
+                stringArrayStack.push(first);
+                stringArrayStack.push(second);
+            }
+
+            @Test
+            void pushToFullArray() {
+                String temp = "tempElement";
+                assertEquals(-1, stringArrayStack.push(temp));
+            }
+
+            @Test
+            void pop() {
+                assertEquals(second, stringArrayStack.pop());
+                assertEquals(first, stringArrayStack.pop());
+                assertThrows(EmptyStackException.class, () -&gt; {
+                    stringArrayStack.pop();
+                });
+            }
+
+            @Test
+            void peek() {
+                assertEquals(second, stringArrayStack.peek());
+                assertNotEquals(first, stringArrayStack.peek());
+            }
+
+            @Test
+            void peekAtEmptyStack() {
+                assertEquals(second, stringArrayStack.pop());
+                assertEquals(first, stringArrayStack.pop());
+                assertThrows(EmptyStackException.class, () -&gt; {
+                    stringArrayStack.peek();
+                });
+            }
+
+            @Test
+            void isEmpty() {
+                assertFalse(stringArrayStack.isEmpty());
+                stringArrayStack.pop();
+                assertFalse(stringArrayStack.isEmpty());
+                stringArrayStack.pop();
+                assertTrue(stringArrayStack.isEmpty());
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

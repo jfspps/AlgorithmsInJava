@@ -2,7 +2,7 @@ package com.algo_data.stacksAndQueues;
 
 import java.util.EmptyStackException;
 
-public class Stack<T> {
+public class ListStack<T> {
 
     // when instantiating a Stack, the respective nodes are private and accessible/viewed via pop(), push(), peek() and isEmpty()
     // note that the Stack and Queue are implemented here as linked lists to allow for dynamic allocation (arrays may also be employed; see ArrayStack)

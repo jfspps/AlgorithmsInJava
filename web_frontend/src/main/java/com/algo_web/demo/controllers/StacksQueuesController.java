@@ -14,4 +14,14 @@ public class StacksQueuesController {
     String getIndex() {
         return "/stacksAndQueues/index";
     }
+
+    @GetMapping("/listStack")
+    String getListStack() {
+        return "/stacksAndQueues/Stack_linkedList";
+    }
+
+    @GetMapping("/arrayStack")
+    String getArrayStack() {
+        return "/stacksAndQueues/Stack_array";
+    }
 }

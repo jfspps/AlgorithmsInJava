@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Stack via a list</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Implementing a stack via a linked list</h1>
+
+    <p>This demonstrates the implementation of a stack ADT via a linked list (nested) class.</p>
+
+    <pre>
+        <code class="lang-java">
+        private static class StackNode&lt;T&gt; {
+            private T data;
+            private StackNode&lt;T&gt; next;
+
+            public StackNode(T data){
+                this.data = data;
+            }
+        }
+
+        private StackNode&lt;T&gt; top;
+        </code>
+    </pre>
+
+    <p>
+        The primary methods pop(), push(), peek() and isEmpty() are set out below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public T pop(){
+            if (top == null){
+                throw new EmptyStackException();
+            }
+
+            T item = top.data;
+            top = top.next;
+            return item;
+        }
+
+        public void push(T item){
+            StackNode&lt;T&gt;newItem = new StackNode&lt;&gt;(item);
+            newItem.next = top;
+            top = newItem;
+        }
+
+        public T peek(){
+            if (top == null){
+                throw new EmptyStackException();
+            }
+            return top.data;
+        }
+
+        public boolean isEmpty(){
+            return this.top == null;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Passing unit tests are provided below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        class ListStackTest {
+
+            ListStack&lt;String&gt; stringListStack;
+            String first;
+            String second;
+
+            @BeforeEach
+            void setUp() {
+                stringListStack = new ListStack&lt;&gt;();
+                first = "first";
+                second = "second";
+
+                stringListStack.push(first);
+                stringListStack.push(second);
+            }
+
+            @Test
+            void pop() {
+                assertEquals(second, stringListStack.pop());
+                assertEquals(first, stringListStack.pop());
+                assertThrows(EmptyStackException.class, () -&gt; {
+                    stringListStack.pop();
+                });
+            }
+
+            @Test
+            void peek() {
+                assertEquals(second, stringListStack.peek());
+                assertNotEquals(first, stringListStack.peek());
+            }
+
+            @Test
+            void isEmpty() {
+                assertFalse(stringListStack.isEmpty());
+                stringListStack.pop();
+                assertFalse(stringListStack.isEmpty());
+                stringListStack.pop();
+                assertTrue(stringListStack.isEmpty());
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

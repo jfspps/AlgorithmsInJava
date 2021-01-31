@@ -2,14 +2,14 @@ package com.algo_data.stacksAndQueues;
 
 import java.util.EmptyStackException;
 
-public class SmallIntAtTopStack extends Stack<Integer> {
+public class SmallIntAtTopListStack extends ListStack<Integer> {
 
     private int smallestInt;
-    private final Stack<Integer> tempStack;
+    private final ListStack<Integer> tempListStack;
 
-    public SmallIntAtTopStack() {
+    public SmallIntAtTopListStack() {
         super();
-        tempStack = new Stack<>();
+        tempListStack = new ListStack<>();
         smallestInt = Integer.MAX_VALUE;
     }
 
@@ -17,8 +17,8 @@ public class SmallIntAtTopStack extends Stack<Integer> {
         return smallestInt;
     }
 
-    public Stack<Integer> getTempStack() {
-        return tempStack;
+    public ListStack<Integer> getTempStack() {
+        return tempListStack;
     }
 
     // when pushing, one compares the topmost node with the incoming node
@@ -31,9 +31,9 @@ public class SmallIntAtTopStack extends Stack<Integer> {
         if (!super.isEmpty()) {
             if (super.peek() <= data) {
                 // make way for incoming data
-                tempStack.push(super.pop());
+                tempListStack.push(super.pop());
                 super.push(data);
-                super.push(tempStack.pop());    //tempStack is not always empty; see pop()
+                super.push(tempListStack.pop());    //tempStack is not always empty; see pop()
             } else {
                 super.push(data);
                 smallestInt = data;
@@ -50,26 +50,26 @@ public class SmallIntAtTopStack extends Stack<Integer> {
      * Removes and returns the smallest int from the stack or throws an EmptyStackException if empty
      * */
     public Integer pop(){
-        if (super.isEmpty() && tempStack.isEmpty()){
+        if (super.isEmpty() && tempListStack.isEmpty()){
             System.out.println("Stack is empty");
             throw new EmptyStackException();
         }
 
         // transfer everything to tempStack
         while (!super.isEmpty()){
-            tempStack.push(super.pop());
+            tempListStack.push(super.pop());
         }
 
         // reset smallestInt and transfer one item
-        smallestInt = tempStack.peek();
-        super.push(tempStack.pop());
+        smallestInt = tempListStack.peek();
+        super.push(tempListStack.pop());
 
         // transfer all other items to stack, checking their values
-        while (!tempStack.isEmpty()){
-            if (smallestInt > tempStack.peek()){
-                smallestInt = tempStack.peek();
+        while (!tempListStack.isEmpty()){
+            if (smallestInt > tempListStack.peek()){
+                smallestInt = tempListStack.peek();
             }
-            super.push(tempStack.pop());
+            super.push(tempListStack.pop());
         }
 
         // transfer items to tempStack until an item with a value matching smallestInt is found (there may be >1 item)
@@ -78,14 +78,14 @@ public class SmallIntAtTopStack extends Stack<Integer> {
             if (super.peek() == smallestInt){
                 break;
             }
-            tempStack.push(super.pop());
+            tempListStack.push(super.pop());
         }
 
         Integer output = super.pop();
 
         // ...return any tempStack nodes
-        while (!tempStack.isEmpty()){
-            super.push(tempStack.pop());
+        while (!tempListStack.isEmpty()){
+            super.push(tempListStack.pop());
         }
 
         return output;
