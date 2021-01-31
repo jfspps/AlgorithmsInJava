@@ -37,4 +37,7 @@ public class StacksQueuesController {
 
     @GetMapping("/arrayStackWithMin")
     String getArrayOfStacks() { return "/stacksAndQueues/StackArrayWithMin"; }
+
+    @GetMapping("/setOfStacks")
+    String getSetOfStacks() { return "/stacksAndQueues/SetOfStacks"; }
 }

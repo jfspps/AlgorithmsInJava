@@ -25,10 +25,6 @@ public class SetOfStacks<T> {
         return this.stacks.get(index);
     }
 
-    public boolean stackIsEmpty(int index){
-        return getStack(index).isEmpty();
-    }
-
     /**
      * This pushes non-null data to a stack in a setOfStacks; a new stack of size stackSize is built if required
      * */
@@ -114,5 +110,9 @@ public class SetOfStacks<T> {
         }
 
         return this.stacks.get(stackNumber).peek();
+    }
+
+    public boolean stackIsEmpty(int index){
+        return getStack(index).isEmpty();
     }
 }

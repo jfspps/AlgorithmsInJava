@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Set of stacks</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Implementing a set of stacks</h1>
+
+    <p>
+        This demonstrates the implementation of an ArrayList of <a th:href="@{/stacksAndQueues/arrayStack}">ArrayStacks</a>, with stack specific popAt() and peekAt() methods.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private ArrayList&lt;ArrayStack&lt;T&gt;&gt; stacks;
+
+        public SetOfStacks(int stackSize) {
+            stacks = new ArrayList&lt;T&gt;(stackSize);
+        }
+
+        public ArrayList&lt;ArrayStack&lt;T&gt;&gt;getStacks() {
+            return stacks;
+        }
+
+        public ArrayStack&lt;T&gt; getStack(int index){
+            return this.stacks.get(index);
+        }
+        </code>
+    </pre>
+
+    <p>
+        When elements or nodes are pushed to a full stack, SetOfStacks automatically builds a new stack (at the default
+        size of eight elements).
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public int push(T data, int stackSize){
+            int index = 0;
+            ArrayStack&lt;T&gt; currentStack = this.getStack(index);
+            int returnType = -1;
+
+            while (currentStack != null){
+                // try to push to the currentStack
+                returnType = currentStack.push(data);
+
+                if (returnType == 1){
+                    break;
+                }
+                currentStack = this.getStack(++index);
+            }
+
+            if (returnType == -1){
+                ArrayStack&lt;T&gt; newStack = new ArrayStack&lt;T&gt;(stackSize);
+                returnType = newStack.push(data);
+                this.stacks.add(newStack);
+            }
+
+            return returnType;
+        }
+
+        public int push(T data){
+            return this.push(data, 8);
+        }
+        </code>
+    </pre>
+
+    <p>
+        The other methods pop() and peek() process the uppermost element or node. In addition, there are popAt() and
+        peekAt() which return relevant data pertaining to the given stack. The method isEmpty() focuses on a specific
+        stack.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public T pop(){
+            int latestStack = this.stacks.size() - 1;
+            T output = this.stacks.get(latestStack).pop();
+
+            if (this.stacks.get(latestStack).isEmpty()){
+                this.stacks.removeAtIndex(latestStack);
+            }
+
+            return output;
+        }
+
+        public T popAt(int stackNumber){
+            int latestStack = this.stacks.size() - 1;
+
+            if (latestStack &lt; stackNumber){
+                throw new NoSuchElementException("Stack number provided not found");
+            }
+            T output = this.stacks.get(stackNumber).pop();
+
+            if (this.stacks.get(stackNumber).isEmpty()){
+                this.stacks.removeAtIndex(stackNumber);
+            }
+
+            return output;
+        }
+
+        public T peek(){
+            int latestStack = this.stacks.size() - 1;
+            return this.stacks.get(latestStack).peek();
+        }
+
+        public T peekAt(int stackNumber){
+            int latestStack = this.stacks.size() - 1;
+
+            if (latestStack < stackNumber){
+                throw new NoSuchElementException("Stack number provided not found");
+            }
+
+            return this.stacks.get(stackNumber).peek();
+        }
+
+        public boolean stackIsEmpty(int index){
+            return getStack(index).isEmpty();
+        }
+        </code>
+    </pre>
+
+    <p>
+        The passing unit tests are summarised below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        class SetOfStacksTest {
+
+            SetOfStacks&lt;String&lt; setOfStacks;
+            String first = "first";
+            String second = "second";
+            String third = "third";
+            ArrayStack&lt;String&lt; temp = new ArrayStack&lt;T&gt;(2);
+
+            @BeforeEach
+            void setUp() {
+                setOfStacks = new SetOfStacks&lt;T&gt;(2);
+            }
+
+            @Test
+            void getStacks() {
+                assertNotNull(setOfStacks.getStacks());
+                assertEquals(0, setOfStacks.getStacks().size());
+
+                setOfStacks.getStacks().add(temp);
+                assertEquals(1, setOfStacks.getStacks().size());
+            }
+
+            @Test
+            void getStack() {
+                setOfStacks.getStacks().add(temp);
+                assertNotNull(setOfStacks.getStack(0));
+            }
+
+            @Test
+            void stackIsEmpty() {
+                setOfStacks.getStacks().add(temp);
+                assertTrue(setOfStacks.stackIsEmpty(0));
+            }
+
+            @Test
+            void pushDefaults() {
+                setOfStacks.push("Welcome!");
+                assertFalse(setOfStacks.getStack(0).isEmpty());
+
+                ArrayStack&lt;String&lt; arrayStack = setOfStacks.getStack(0);
+                assertEquals("Welcome!", arrayStack.peek());
+            }
+
+            @Test
+            void push(){
+                setOfStacks.push("Welcome!", 2);
+                assertFalse(setOfStacks.getStack(0).isEmpty());
+
+                ArrayStack&lt;String&lt; arrayStack = setOfStacks.getStack(0);
+                assertEquals("Welcome!", arrayStack.peek());
+            }
+
+            @Test
+            void pushLotsSameStackSize(){
+                setOfStacks.push(first, 2);
+                setOfStacks.push(second, 2);
+                setOfStacks.push(third, 2);
+                assertFalse(setOfStacks.getStack(0).isEmpty());
+                assertFalse(setOfStacks.getStack(1).isEmpty());
+                assertNull(setOfStacks.getStack(2));
+
+                ArrayStack&lt;String&lt; arrayStack = setOfStacks.getStack(0);
+                assertEquals(second, arrayStack.peek());
+                ArrayStack&lt;String&lt; arrayStack2 = setOfStacks.getStack(1);
+                assertEquals(third, arrayStack2.peek());
+            }
+
+            @Test
+            void pushLotsDifferentStackSize(){
+                setOfStacks.push(first, 1);
+                setOfStacks.push(second, 2);
+                setOfStacks.push(third, 2);
+                assertFalse(setOfStacks.getStack(0).isEmpty());
+                assertFalse(setOfStacks.getStack(1).isEmpty());
+                assertNull(setOfStacks.getStack(2));
+
+                ArrayStack&lt;String&lt; arrayStack = setOfStacks.getStack(0);
+                assertEquals(first, arrayStack.peek());
+                ArrayStack&lt;String&lt; arrayStack2 = setOfStacks.getStack(1);
+                assertEquals(third, arrayStack2.peek());
+            }
+
+            @Test
+            void pop() {
+                setOfStacks.push("Welcome!");
+                assertEquals("Welcome!", setOfStacks.pop());
+            }
+
+            @Test
+            void popMultipleStacks() {
+                setOfStacks.push(first, 1);
+                setOfStacks.push(second, 2);
+                setOfStacks.push(third, 2);
+
+                assertEquals(third, setOfStacks.pop());
+                assertEquals(second, setOfStacks.pop());
+
+                // second stack should now be null
+                assertNull(setOfStacks.getStack(1));
+            }
+
+            @Test
+            void popAt() {
+                setOfStacks.push(first, 1);
+                setOfStacks.push(second, 2);
+                setOfStacks.push(third, 2);
+
+                assertEquals(first, setOfStacks.popAt(0));
+                assertNull(setOfStacks.getStack(0));
+                assertNotNull(setOfStacks.getStack(1));
+            }
+
+            @Test
+            void peek() {
+                setOfStacks.push(first, 1);
+                setOfStacks.push(second, 2);
+                setOfStacks.push(third, 2);
+
+                assertEquals(third, setOfStacks.peek());
+            }
+
+            @Test
+            void peekAt() {
+                setOfStacks.push(first, 1);
+                setOfStacks.push(second, 2);
+                setOfStacks.push(third, 2);
+
+                assertEquals(third, setOfStacks.peekAt(1));
+                assertEquals(first, setOfStacks.peekAt(0));
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

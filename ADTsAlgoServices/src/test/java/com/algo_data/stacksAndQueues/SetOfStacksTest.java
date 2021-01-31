@@ -36,7 +36,7 @@ class SetOfStacksTest {
     @Test
     void stackIsEmpty() {
         setOfStacks.getStacks().add(temp);
-        assertTrue(setOfStacks.getStack(0).isEmpty());
+        assertTrue(setOfStacks.stackIsEmpty(0));
     }
 
     @Test
