@@ -29,4 +29,9 @@ public class StacksQueuesController {
     String getListQueue() {
         return "/stacksAndQueues/Queue_linkedList";
     }
+
+    @GetMapping("/arrayOfThree")
+    String getArrayOfThreeStacks() {
+        return "/stacksAndQueues/ArrayOfThreeStacks";
+    }
 }
