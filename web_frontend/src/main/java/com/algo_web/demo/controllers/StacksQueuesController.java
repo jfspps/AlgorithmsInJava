@@ -24,4 +24,9 @@ public class StacksQueuesController {
     String getArrayStack() {
         return "/stacksAndQueues/Stack_array";
     }
+
+    @GetMapping("/listQueue")
+    String getListQueue() {
+        return "/stacksAndQueues/Queue_linkedList";
+    }
 }

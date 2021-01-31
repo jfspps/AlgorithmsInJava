@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Queue via a list</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Implementing a queue via a linked list</h1>
+
+    <p>This demonstrates the implementation of a queue ADT via a linked list (nested) class.</p>
+
+    <pre>
+        <code class="lang-java">
+        private static class QueueNode&lt;&gt; {
+            private T data;
+            private QueueNode&lt;&gt; next;
+
+            public QueueNode(T data){
+                this.data = data;
+            }
+        }
+
+        // references to the first and last node or element in the queue
+        private QueueNode&lt;&gt; front;
+        private QueueNode&lt;&gt; back;
+        </code>
+    </pre>
+
+    <p>
+        The methods enqueue(), dequeue(), peek() and isEmpty() are set out below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public void enqueue(T item){
+            QueueNode&lt;&gt; newNode = new QueueNode&lt;&gt;(item);
+
+            // if queue is not empty then update last property
+            if (back != null){
+                back.next = newNode;
+            }
+
+            back = newNode;
+
+            // account for a new queue by setting first to newNode
+            if (front == null) {
+                front = back;
+            }
+        }
+
+        public T dequeue(){
+            if (front == null){
+                throw new NoSuchElementException();
+            }
+
+            //get the first item's data and then update the queue
+            T data = front.data;
+            front = front.next;
+
+            // if the queue is empty, then update last
+            if (front == null){
+                back = null;
+            }
+            return data;
+        }
+
+        public T peek(){
+            if (front == null){
+                throw new NoSuchElementException();
+            }
+            return front.data;
+        }
+
+        public boolean isEmpty(){
+            return front == null;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Passing unit tests are provided below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        class QueueTest {
+
+            Queue&lt;String&gt; stringQueue;
+            String first;
+            String second;
+
+            @BeforeEach
+            void setUp() {
+                first = "first";
+                second = "second";
+                stringQueue = new Queue&lt;&gt;();
+                stringQueue.enqueue(first);
+                stringQueue.enqueue(second);
+            }
+
+            @Test
+            void enqueueAndDequeue() {
+                assertEquals(first, stringQueue.dequeue());
+                assertEquals(second, stringQueue.dequeue());
+                assertThrows(NoSuchElementException.class, () -&gt; {
+                    stringQueue.dequeue();
+                });
+            }
+
+            @Test
+            void peek() {
+                assertEquals(first, stringQueue.peek());
+                assertNotEquals(second, stringQueue.dequeue());
+            }
+
+            @Test
+            void peekAtEmptyQueue() {
+                assertEquals(first, stringQueue.dequeue());
+                assertEquals(second, stringQueue.dequeue());
+                assertThrows(NoSuchElementException.class, () -&gt; {
+                    stringQueue.peek();
+                });
+            }
+
+            @Test
+            void isEmpty() {
+                assertFalse(stringQueue.isEmpty());
+                stringQueue.dequeue();
+                assertFalse(stringQueue.isEmpty());
+                stringQueue.dequeue();
+                assertTrue(stringQueue.isEmpty());
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
