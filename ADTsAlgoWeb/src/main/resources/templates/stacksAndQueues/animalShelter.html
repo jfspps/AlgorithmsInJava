@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Animal shelters and queues</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Implementing an animal shelter using a queue</h1>
+
+    <p>This project demonstrates how to build an animal shelter repository which organises which animals are checked in
+        and out. The fields are based on Java's LinkedList types.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private final LinkedList&lt;String&gt; dogs;
+        private final LinkedList&lt;String&gt; cats;
+        public static final String DOG = "dog";
+        public static final String CAT = "cat";
+
+        public DogsAndCats() {
+            dogs = new LinkedList&lt;&gt;();
+            cats = new LinkedList&lt;&gt;();
+        }
+        </code>
+    </pre>
+
+    <p>
+        Cats and dogs are first verified (are they cats or dogs) before being added to their respective queue structures.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public void enqueue(String name, String type){
+            int firstNull;
+            if (type.equalsIgnoreCase(CAT)){
+                firstNull = getToFirstNull(cats);
+                cats.add(firstNull, name);
+            } else if (type.equalsIgnoreCase(DOG)){
+                firstNull = getToFirstNull(dogs);
+                dogs.add(firstNull, name);
+            } else {
+                System.out.println("Expecting either cat or dog as second argument");
+            }
+        }
+
+        // time complexity is O(n)
+        private int getToFirstNull(LinkedList&lt;String&gt; animalList) {
+            int counter = 0;
+
+            while (counter < animalList.size()){
+                if (animalList.get(counter) == null){
+                    break;
+                }
+                counter++;
+            }
+            return counter;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The peek() and, effectively, isEmpty() type methods are given below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public String peek(String type){
+            if (type.equalsIgnoreCase(CAT)){
+                return cats.get(0);
+            } else if (type.equalsIgnoreCase(DOG)){
+                return dogs.get(0);
+            } else {
+                System.out.println("Expecting either cat or dog as second argument");
+                return null;
+            }
+        }
+
+        // time complexity is constant, O(1)
+        public boolean noneAtShelter(String type){
+            if (type.equalsIgnoreCase(CAT)){
+                return cats.isEmpty();
+            } else if (type.equalsIgnoreCase(DOG)){
+                return dogs.isEmpty();
+            } else {
+                System.out.println("Expecting either cat or dog as second argument");
+                return true;
+            }
+        }
+        </code>
+    </pre>
+
+    <p>
+        Unless specified, a dog or cat is released while maintaining a balance between the number of cats and dogs present.
+        If there are equal numbers of cats and dogs present then a cat is released.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public String dequeueDog(){
+            if (dogs.get(0) == null){
+                System.out.println("No more dogs at the shelter");
+                return null;
+            }
+
+            String dogsName = dogs.get(0);
+            dogs.remove(0);
+            return dogsName;
+        }
+
+        // time complexity is based on reshuffle, i.e. O(n)
+        public String dequeueCat(){
+            if (cats.get(0) == null){
+                System.out.println("No more cats at the shelter");
+                return null;
+            }
+
+            String catsName = cats.get(0);
+            cats.remove(0);
+            return catsName;
+        }
+
+        // time complexity is based on reshuffle, i.e. O(n)
+        public String dequeueAny(){
+            // returns an animal from the most populated list
+            if (cats.isEmpty() && dogs.isEmpty()){
+                System.out.println("No animals at the shelter");
+                return null;
+            }
+
+            String animalName;
+            boolean catAdopted = false;
+            if (cats.size() &gt;= dogs.size()){
+                animalName = cats.get(0);
+                catAdopted = true;
+            } else {
+                animalName = dogs.get(0);
+            }
+
+            if (catAdopted){
+                cats.remove(0);
+            } else
+                dogs.remove(0);
+
+            return animalName;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Passing unit tests are given below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        class DogsAndCatsTest {
+
+            String bernie = "Bernie";
+            String sammy = "Sammy";
+            String cushions = "Cushions";
+            String bone = "Bone";
+            DogsAndCats dogsAndCats;
+            public static final String DOG = "dog";
+            public static final String CAT = "cat";
+
+            @BeforeEach
+            void setUp() {
+                dogsAndCats = new DogsAndCats();
+            }
+
+            @Test
+            void enqueue() {
+                assertTrue(dogsAndCats.noneAtShelter(DOG));
+                dogsAndCats.enqueue(bernie, DOG);
+                assertFalse(dogsAndCats.noneAtShelter(DOG));
+            }
+
+            @Test
+            void peek() {
+                dogsAndCats.enqueue(bernie, DOG);
+                assertEquals(bernie, dogsAndCats.peek(DOG));
+            }
+
+            @Test
+            void enqueueAndPeekSeveral(){
+                dogsAndCats.enqueue(bernie, DOG);
+                dogsAndCats.enqueue(sammy, CAT);
+                dogsAndCats.enqueue(cushions, CAT);
+                dogsAndCats.enqueue(bone, DOG);
+
+                assertEquals(bernie, dogsAndCats.peek(DOG));
+                assertEquals(sammy, dogsAndCats.peek(CAT));
+
+                assertNull(dogsAndCats.peek("pigeon"));
+            }
+
+            @Test
+            void dequeueDog() {
+                dogsAndCats.enqueue(bernie, DOG);
+                dogsAndCats.enqueue(sammy, CAT);
+                dogsAndCats.enqueue(cushions, CAT);
+                dogsAndCats.enqueue(bone, DOG);
+
+                assertEquals(bernie, dogsAndCats.dequeueDog());
+            }
+
+            @Test
+            void dequeueCat() {
+                dogsAndCats.enqueue(bernie, DOG);
+                dogsAndCats.enqueue(sammy, CAT);
+                dogsAndCats.enqueue(cushions, CAT);
+                dogsAndCats.enqueue(bone, DOG);
+
+                assertEquals(sammy, dogsAndCats.dequeueCat());
+
+                // cat released when there are equal numbers of dogs and cats
+                assertEquals(cushions, dogsAndCats.dequeueCat());
+            }
+
+            @Test
+            void dequeueAny() {
+                dogsAndCats.enqueue(bernie, DOG);
+                dogsAndCats.enqueue(sammy, CAT);
+                dogsAndCats.enqueue(cushions, CAT);
+                dogsAndCats.enqueue(bone, DOG);
+
+                assertEquals(bernie, dogsAndCats.dequeueDog());
+                assertEquals(sammy, dogsAndCats.dequeueCat());
+
+                // cat released when there are equal numbers of dogs and cats
+                assertEquals(cushions, dogsAndCats.dequeueAny());
+            }
+
+            @Test
+            void isEmpty() {
+                dogsAndCats.enqueue(bernie, DOG);
+                dogsAndCats.enqueue(sammy, CAT);
+                dogsAndCats.enqueue(cushions, CAT);
+                dogsAndCats.enqueue(bone, DOG);
+
+                dogsAndCats.dequeueCat();
+                dogsAndCats.dequeueCat();
+                assertTrue(dogsAndCats.noneAtShelter(CAT));
+                assertFalse(dogsAndCats.noneAtShelter(DOG));
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

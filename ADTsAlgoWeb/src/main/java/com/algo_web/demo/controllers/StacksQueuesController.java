@@ -46,4 +46,7 @@ public class StacksQueuesController {
 
     @GetMapping("/smallTop")
     String getSmallAtTop() { return "/stacksAndQueues/smallTop"; }
+
+    @GetMapping("/animalShelter")
+    String getAnimalShelter() { return "/stacksAndQueues/animalShelter"; }
 }
