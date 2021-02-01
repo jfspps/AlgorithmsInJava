@@ -43,4 +43,7 @@ public class StacksQueuesController {
 
     @GetMapping("/QueueAsStacks")
     String getQueueFromStacks() { return "/stacksAndQueues/Queue_stacks"; }
+
+    @GetMapping("/smallTop")
+    String getSmallAtTop() { return "/stacksAndQueues/smallTop"; }
 }

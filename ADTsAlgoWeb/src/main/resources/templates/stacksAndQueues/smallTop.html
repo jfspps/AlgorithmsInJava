@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Smallest top element</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Implementing a stack with the smallest integer at the top</h1>
+
+    <p>This demonstrates the extension of the custom <a th:href="@{/stacksAndQueues/listStack}">linked list</a>, in
+        which the smallest integer is always present at the top of the stack.</p>
+
+    <pre>
+        <code class="lang-java">
+        private int smallestInt;
+        private final ListStack&lt;Integer&gt; tempListStack;
+
+        public SmallIntAtTopListStack() {
+            super();
+            tempListStack = new ListStack&lt;&gt;();
+            smallestInt = Integer.MAX_VALUE;
+        }
+
+        public int getSmallestInt() {
+            return smallestInt;
+        }
+
+        public ListStack&lt;Integer&gt; getTempStack() {
+            return tempListStack;
+        }
+        </code>
+    </pre>
+
+    <p>
+        The methods push() and pop() are overridden. The method push() attempts to place the minimum (whenever one is
+        found) at the top, while possibly leaving other elements on the temporary stack, tempListStack. The logic
+        behind pop() is commented below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public void push(int data){
+            if (!super.isEmpty()) {
+                if (super.peek() &lt;= data) {
+                    // make way for incoming data
+                    tempListStack.push(super.pop());
+                    super.push(data);
+                    super.push(tempListStack.pop());    //tempStack is not always empty; see pop()
+                } else {
+                    super.push(data);
+                    smallestInt = data;
+                }
+            } else {
+                super.push(data);
+                smallestInt = data;
+            }
+        }
+
+        public Integer pop(){
+            if (super.isEmpty() && tempListStack.isEmpty()){
+                System.out.println("Stack is empty");
+                throw new EmptyStackException();
+            }
+
+            // transfer everything to tempStack
+            while (!super.isEmpty()){
+                tempListStack.push(super.pop());
+            }
+
+            // reset smallestInt and transfer one item
+            smallestInt = tempListStack.peek();
+            super.push(tempListStack.pop());
+
+            // transfer all other items to stack, checking their values
+            while (!tempListStack.isEmpty()){
+                if (smallestInt &gt; tempListStack.peek()){
+                    smallestInt = tempListStack.peek();
+                }
+                super.push(tempListStack.pop());
+            }
+
+            // transfer items to tempStack until an item with a value matching smallestInt is found (there may be >1 item)
+            // this also means tempStack may not always be empty...
+            while (!super.isEmpty()){
+                if (super.peek() == smallestInt){
+                    break;
+                }
+                tempListStack.push(super.pop());
+            }
+
+            Integer output = super.pop();
+
+            // ...return any tempStack nodes
+            while (!tempListStack.isEmpty()){
+                super.push(tempListStack.pop());
+            }
+
+            return output;
+        }
+        </code>
+    </pre>
+
+    <p>
+        Passing unit tests are provided below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        class SmallIntAtTopStackTest {
+
+            SmallIntAtTopListStack stack;
+
+            @BeforeEach
+            void setUp() {
+                stack = new SmallIntAtTopListStack();
+            }
+
+            @Test
+            void push() {
+                stack.push(4);
+                assertFalse(stack.isEmpty());
+            }
+
+            @Test
+            void pushSeveralInts() {
+                for (int input : new int[]{2,3,4,5,0,3,12} ) {
+                    stack.push(input);
+                }
+
+                assertFalse(stack.isEmpty());
+                assertEquals(0, stack.getSmallestInt());
+            }
+
+            @Test
+            void pop() {
+                stack.push(4);
+                assertEquals(4, stack.pop());
+            }
+
+            @Test
+            void popSeveral(){
+                for (int input : new int[]{2,3,4,5,0,3,12} ) {
+                    stack.push(input);
+                }
+
+                assertEquals(0, stack.pop());
+                assertEquals(2, stack.pop());
+                assertEquals(3, stack.pop());
+                assertEquals(3, stack.pop());
+                assertEquals(4, stack.pop());
+
+                // note that peek returns whatever is at the top of the stack and need not be the smallest int
+                // use getSmallestInt() to peek at smallest int
+                //
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>
