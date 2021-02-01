@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>Queue via two stacks</title>
+</head>
+
+<body>
+<nav th:replace="fragments/navBar :: nav"></nav>
+
+<div class="container">
+    <h1>Implementing a queue via two stacks</h1>
+
+    <p>This demonstrates the implementation of a queue ADT via the custom
+        <a th:href="@{/stacksAndQueues/listStack}">linked list</a> class. Nodes or elements are stored in listStackIn.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        private final ListStack&lt;T&gt; listStackIn;
+        private final ListStack&lt;T&gt; listStackOut;
+
+        public QueueAsStacks() {
+            listStackIn = new ListStack&lt;&gt;();
+            listStackOut = new ListStack&lt;&gt;();
+        }
+        </code>
+    </pre>
+
+    <p>
+        The methods enqueue(), dequeue(), peek() and isEmpty() are listed below. When a node or element is removed from
+        the queue, all but the last element of listStackIn are sent to listStackOut. Note that the elements are not
+        resorted once an element is removed. Before a new element is added to the queue, all elements from listStackOut
+        are sent to listStackIn. The new element is then pushed to the top of listStackIn.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        public void enqueue(T data){
+            // make sure stackOut items are transferred to stackIn before adding more to stackIn
+            while (!listStackOut.isEmpty()){
+                listStackIn.push(listStackOut.pop());
+            }
+
+            listStackIn.push(data);
+        }
+
+        // time complexity is also O(n), where n is the current size of the Queue
+        public T dequeue(){
+            // make sure stackIn items are transferred to stackOut before removing from stackOut
+            while (!listStackIn.isEmpty()){
+                listStackOut.push(listStackIn.pop());
+            }
+
+            if (!listStackOut.isEmpty()){
+                return listStackOut.pop();
+            }
+
+            System.out.println("Queue is currently empty");
+            return null;
+        }
+
+        public T peek(){
+            // follows the same logic as dequeue()
+            while (!listStackIn.isEmpty()){
+                listStackOut.push(listStackIn.pop());
+            }
+
+            if (!listStackOut.isEmpty()){
+                return listStackOut.peek();
+            }
+
+            System.out.println("Queue is currently empty");
+            return null;
+        }
+
+        public boolean isEmpty(){
+            return listStackIn.isEmpty() && listStackOut.isEmpty();
+        }
+        </code>
+    </pre>
+
+    <p>
+        Passing unit tests are provided below.
+    </p>
+
+    <pre>
+        <code class="lang-java">
+        class QueueAsStacksTest {
+
+            QueueAsStacks&lt;Character&gt; queue;
+            Character[] characters = {'a','b','c'};
+
+            @BeforeEach
+            void setUp() {
+                queue = new QueueAsStacks&lt;T&gt;();
+            }
+
+            @Test
+            void enqueue() {
+                queue.enqueue('A');
+                assertFalse(queue.isEmpty());
+            }
+
+            @Test
+            void dequeue() {
+                queue.enqueue('A');
+                assertEquals('A', queue.dequeue());
+            }
+
+            @Test
+            void dequeueList() {
+                for (Character character: characters) {
+                    queue.enqueue(character);
+                }
+                assertEquals('a', queue.dequeue());
+                assertEquals('b', queue.dequeue());
+                assertEquals('c', queue.dequeue());
+            }
+
+            @Test
+            void peek() {
+                for (Character character: characters) {
+                    queue.enqueue(character);
+                }
+                assertEquals('a', queue.peek());
+            }
+
+            @Test
+            void isEmpty() {
+                assertTrue(queue.isEmpty());
+            }
+        }
+        </code>
+    </pre>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+
+</body>
+</html>

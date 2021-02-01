@@ -40,4 +40,7 @@ public class StacksQueuesController {
 
     @GetMapping("/setOfStacks")
     String getSetOfStacks() { return "/stacksAndQueues/SetOfStacks"; }
+
+    @GetMapping("/QueueAsStacks")
+    String getQueueFromStacks() { return "/stacksAndQueues/Queue_stacks"; }
 }
