@@ -19,6 +19,8 @@ public class ArrayList<T> {
     /**
      * Adds a new element to array at the lowest-index null element (not necessarily the end of the array).
      * The array capacity increases automatically when the number of free elements remaining is one.
+     *
+     * @param newElement - element to be added
      */
     public void add(T newElement){
         if (length > 0 && capacity - length < 2){
@@ -48,7 +50,9 @@ public class ArrayList<T> {
 
     /**
      * Helper function that copies this.arrayList to a new array.
-     * Returns this.length.
+     *
+     * @param newArray - reference to array clone
+     * @return number of elements copied (length of array copied)
      */
     private int clone(ArrayList<T> newArray) {
         int i;
@@ -59,22 +63,30 @@ public class ArrayList<T> {
     }
 
     /**
-     * Returns the index of the first null element that proceeds the highest non-null element.
-     * */
+     * Returns the length or size of the array
+     *
+     * @return index of element that proceeds the last non-null element
+     */
     public int size(){
         return this.length;
     }
 
+
     /**
-     * Returns true if the array is empty and false if not.
-     * */
+     * Determines if an array is empty or not
+     *
+     * @return true if empty and false if not
+     */
     public boolean isEmpty(){
         return this.length == 0;
     }
 
     /**
      * Retrieves the element (which can be null) at the supplied index and returns null if not found.
-     * */
+     *
+     * @param index - index of element requested
+     * @return data of the element with the supplied index
+     */
     public T get(int index){
         if (index < length){
             return this.arrayList[index];
@@ -86,7 +98,7 @@ public class ArrayList<T> {
      * Clears the entire array and pads all elements as null, while resetting the length to zero.
      *
      * The capacity of and reference to the array are not changed.
-     * */
+     */
     public void clear(){
         // use the same memory allocation
         for (int i = 0; i < this.length; i++){
@@ -96,11 +108,14 @@ public class ArrayList<T> {
     }
 
     /**
-     * Returns the lowest index of the element if found and returns -1 if not found.
-     * */
-    public int indexOf(T element){
+     * Searches for the first element with the given data
+     *
+     * @param data value or data sought after
+     * @return index of the first element found; -1 if none found
+     */
+    public int indexOf(T data){
         for (int i = 0; i < this.length; i++){
-            if (this.arrayList[i] == element){
+            if (this.arrayList[i] == data){
                 return i;
             }
         }
@@ -109,9 +124,12 @@ public class ArrayList<T> {
 
     /**
      * Sets the first element found as null, returning the element (which can be null) if valid and null if not.
-     * */
-    public T removeElement(T element){
-        int index = this.indexOf(element);
+     *
+     * @param data nullable data to be removed
+     * @return data of the element removed (can be null); null if data not found
+     */
+    public T removeElement(T data){
+        int index = this.indexOf(data);
         T temp = null;
 
         if (index >= 0){
@@ -125,8 +143,11 @@ public class ArrayList<T> {
     }
 
     /**
-     * Sets the element at the provided index to null and returns the previous value of the element (which can be null).
-     * */
+     * Sets the element at the provided index to null.
+     *
+     * @param index index of the element to be removed
+     * @return data of element removed (can be null)
+     */
     public T removeAtIndex(int index){
         T temp = null;
         if (index >= 0){
@@ -137,23 +158,27 @@ public class ArrayList<T> {
     }
 
     /**
-     * Assigns the element at the supplied index with the newElement value provided.
+     * Assigns the element with the data passed.
      *
-     * This method is also equivalent to addAtIndex(), and expands the array as necessary to accommodate the newElement.
-     * */
-    public void set(T newElement, int index){
+     * This method is equivalent to addAtIndex(), and expands the array as necessary to accommodate the newElement.
+     *
+     * @param data data to be assigned to the element
+     * @param index index of element to be set (this can be out of bounds of the array, the array will adjust length as
+     *              required)
+     */
+    public void set(T data, int index){
         if (index < 0){
             return;
         }
 
         if (index < length){
-            this.arrayList[index] = newElement;
+            this.arrayList[index] = data;
         } else {
             // build a new array just large enough
             ArrayList<T> newArray = new ArrayList<>(index+1);
             this.clone(newArray);
 
-            newArray.arrayList[index] = newElement;
+            newArray.arrayList[index] = data;
             this.arrayList = newArray.arrayList;
             this.length = index + 1;
             this.capacity = newArray.capacity;
