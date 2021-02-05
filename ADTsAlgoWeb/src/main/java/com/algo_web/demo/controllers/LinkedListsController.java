@@ -226,7 +226,7 @@ public class LinkedListsController {
 
     @PostMapping("/palindrome/demo")
     public String postPalindromeList(String input, Model model){
-        if (input.isBlank()){
+        if (input.equals("")){
             model.addAttribute("output", "Empty string passed");
         } else {
             Character[] array = new Character[input.length()];
