@@ -5,12 +5,10 @@ import java.util.LinkedList;
 
 public class BinarySearchTree extends BinaryTree<Integer> {
 
+    // data can be null, though all initialised nodes cannot
     public BinarySearchTree(Integer data) {
         super(data);
     }
-
-    // in a binary search method, the central element will reside at the root
-    // with all left-hand elements on the left branch and all right-hand elements on the right branch
 
     public BinarySearchTree buildBinarySearchTree(Integer[] sortedArray) {
         if (sortedArray.length == 1){
@@ -47,13 +45,12 @@ public class BinarySearchTree extends BinaryTree<Integer> {
             return null;
     }
 
-    // problem is to build a linked list of each level
-    // solution presented here taken from book (there was difficulty with traversing the graph** while keeping track of most recent node)
-    // prior assumption was not knowing the depth of the graph
-
-    // level is zero-based to coincide with ArrayList and signifies which level is being processed
-    // time complexity is O(n), where n = number of nodes + null nodes
-    public ArrayList<LinkedList<BinaryTree<Integer>>> createLevelLinkedList(
+    /**
+     * build a linked list of each level: note that level must be 0 on initial call (updated in the method)
+     * level is zero-based to coincide with ArrayList and signifies which level is being processed
+     * time complexity is O(n), where n = number of nodes + null nodes
+     */
+    public ArrayList<LinkedList<BinaryTree<Integer>>> buildLevelLinkedList(
             BinaryTree<Integer> node, ArrayList<LinkedList<BinaryTree<Integer>>> levelList, int level){
         if (node == null){
             return null;
@@ -74,11 +71,17 @@ public class BinarySearchTree extends BinaryTree<Integer> {
         }
 
         dataList.add(node);
-        createLevelLinkedList(node.getLeftChild(), levelList, level + 1);
-        createLevelLinkedList(node.getRightChild(), levelList, level + 1);
+        buildLevelLinkedList(node.getLeftChild(), levelList, level + 1);
+        buildLevelLinkedList(node.getRightChild(), levelList, level + 1);
         return levelList;
     }
 
+    /**
+     * Returns a node with the given Integer
+     * @param parent root node
+     * @param data Integer sought after
+     * @return node with given Integer or null if nothing found
+     */
     public BinarySearchTree getNode(BinarySearchTree parent, Integer data){
         if (parent == null){
             return null;
@@ -94,6 +97,11 @@ public class BinarySearchTree extends BinaryTree<Integer> {
             return getNode((BinarySearchTree) parent.getRightChild(), data);
     }
 
+    /**
+     * Returns the next node from an in-order traversal following the given node
+     * @param node starting node
+     * @return returns the next node following in-order traversal and null if there is none
+     */
     public BinarySearchTree getNextInOrder(BinarySearchTree node) {
         // if a parent with a right-child
         if (node.getRightChild() != null) {
