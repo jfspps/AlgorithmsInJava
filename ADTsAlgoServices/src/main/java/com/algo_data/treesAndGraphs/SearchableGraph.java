@@ -2,24 +2,24 @@ package com.algo_data.treesAndGraphs;
 
 import com.algo_data.stacksAndQueues.Queue;
 
-public class SearchableTree<T> {
+public class SearchableGraph<T> {
 
     private final T data;
     private boolean visited;
 
     // this applied to a more generic graph as opposed to a binary tree
-    private SearchableTree<T>[] adjacent;
+    private SearchableGraph<T>[] adjacent;
 
-    public SearchableTree(T data) {
+    public SearchableGraph(T data) {
         this.visited = false;
         this.data = data;
     }
 
-    public SearchableTree<T>[] getAdjacent() {
+    public SearchableGraph<T>[] getAdjacent() {
         return adjacent;
     }
 
-    public void setAdjacent(SearchableTree<T>[] adjacent) {
+    public void setAdjacent(SearchableGraph<T>[] adjacent) {
         this.adjacent = adjacent;
     }
 
@@ -32,13 +32,13 @@ public class SearchableTree<T> {
     }
 
     // can be reviewed as required
-    public void printData(SearchableTree<T> node) {
+    public void printData(SearchableGraph<T> node) {
         System.out.println(node.data);
     }
 
     // traverses a tree following a depth-based approach (visit child nodes before peers)
     // like BFS, DFS is O(n)
-    public String depthFirstSearch(SearchableTree<T> root, StringBuilder stringBuilder) {
+    public String depthFirstSearch(SearchableGraph<T> root, StringBuilder stringBuilder) {
         if (root == null) {
             System.out.println("Given node is null");
             return "Null graph received";
@@ -48,7 +48,7 @@ public class SearchableTree<T> {
         stringBuilder.append(root.data).append(" ");
         root.visited = true;
 
-        for (SearchableTree<T> tree : root.adjacent) {
+        for (SearchableGraph<T> tree : root.adjacent) {
             //we must check if visited otherwise for cyclic graphs one would end up in an infinite loop
             if (!tree.visited) {
                 depthFirstSearch(tree, stringBuilder);
@@ -60,7 +60,7 @@ public class SearchableTree<T> {
 
     // build a queue of neighbouring nodes using rootsNeighbours and visit them once all are queued
     // like DFS, BFS is O(n)
-    public String breadthFirstSearch(SearchableTree<T> root, StringBuilder stringBuilder) {
+    public String breadthFirstSearch(SearchableGraph<T> root, StringBuilder stringBuilder) {
         if (root == null) {
             System.out.println("Given node is null");
             return "Null graph received";
@@ -73,11 +73,11 @@ public class SearchableTree<T> {
         while (!queuedNodes.isEmpty()) {
             // initially, this returns root and then adds its siblings to the queue
             // the for loop should not repeat itself for each sibling since the flag node.visited is true
-            SearchableTree<T> currentNode = (SearchableTree<T>) queuedNodes.dequeue();
+            SearchableGraph<T> currentNode = (SearchableGraph<T>) queuedNodes.dequeue();
             stringBuilder.append(currentNode.data).append(" ");
 
             // we must check if visited otherwise for cyclic graphs one would end up in an infinite loop
-            for (SearchableTree<T> node : currentNode.getAdjacent()) {
+            for (SearchableGraph<T> node : currentNode.getAdjacent()) {
                 if (!node.visited) {
                     node.visited = true;
                     queuedNodes.enqueue(node);
@@ -89,7 +89,7 @@ public class SearchableTree<T> {
     }
 
     // modified breadthFirstSearch(), check the node and its siblings to see if they have been visited elsewhere
-    public boolean hasBeenVisitedByOthers(SearchableTree<T> root, SearchableTree<T>[] rootsNeighbours) {
+    public boolean hasBeenVisitedByOthers(SearchableGraph<T> root, SearchableGraph<T>[] rootsNeighbours) {
         System.out.println("Processing " + root.data + "...");
 
         if (root.visited) {
@@ -102,10 +102,10 @@ public class SearchableTree<T> {
         neighbouringNodes.enqueue(root);
 
         while (rootsNeighbours != null && !neighbouringNodes.isEmpty()) {
-            SearchableTree<T> currentNode = (SearchableTree<T>) neighbouringNodes.dequeue();
+            SearchableGraph<T> currentNode = (SearchableGraph<T>) neighbouringNodes.dequeue();
             printData(currentNode);
 
-            for (SearchableTree<T> node : rootsNeighbours) {
+            for (SearchableGraph<T> node : rootsNeighbours) {
                 if (node.visited) {
                     System.out.println("Someone's been at " + node.data + " before; pathway present");
                     return true;
