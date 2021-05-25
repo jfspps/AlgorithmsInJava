@@ -18,6 +18,7 @@ public class BubbleSort {
 
     /**
      * Performs a bubble sort on a primitive array of integers
+     * The worst case is O(n^2) (approx of O(n(n-1)/2))
      */
     public void bubbleSortArray() {
         // require a maximum of n passes to sort an array of n elements
